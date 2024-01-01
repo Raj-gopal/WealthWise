@@ -1,9 +1,31 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wealthwise/%20%20user_auth/firebase_auth_implementation/firebase_auth_service.dart';
+import 'package:wealthwise/screen/home_screen.dart';
 import 'package:wealthwise/screen/sign_up_page.dart';
 
-
-class sign_in extends StatelessWidget {
+class sign_in extends StatefulWidget {
   const sign_in({super.key});
+
+  @override
+  State<sign_in> createState() => _sign_inState();
+}
+
+class _sign_inState extends State<sign_in> {
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
+
+  
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+   
+    _emailController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +56,7 @@ class sign_in extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(top: 32),
                     child: TextField(
+                      controller: _emailController,
                       style: TextStyle(
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.bold,
@@ -59,6 +82,7 @@ class sign_in extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(top: 24),
                     child: TextField(
+                      controller: _passwordController,
                       obscureText: true,
                       style: TextStyle(
                           fontFamily: 'Montserrat',
@@ -85,7 +109,7 @@ class sign_in extends StatelessWidget {
                   Container(
                       margin: EdgeInsets.only(top: 192),
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: _signIn,
                         child: Container(
                           height: 72,
                           decoration: BoxDecoration(
@@ -138,4 +162,22 @@ class sign_in extends StatelessWidget {
       ),
     );
   }
+
+  void _signIn() async {
+  
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    User? user = await _auth.signInWithEmailAndPassword(email, password);
+
+    if (user != null) {
+      print('User is Sucessfully Craeted');
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const home_page()));
+    } else {
+      print("some error happened");
+    }
+  }
+
+
 }

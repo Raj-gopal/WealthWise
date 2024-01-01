@@ -4,7 +4,6 @@ import 'package:wealthwise/%20%20user_auth/firebase_auth_implementation/firebase
 import 'package:wealthwise/screen/home_screen.dart';
 import 'package:wealthwise/screen/sign_in_page.dart';
 
-
 class sign_up extends StatefulWidget {
   const sign_up({super.key});
 
