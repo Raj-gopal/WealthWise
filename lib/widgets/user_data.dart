@@ -101,6 +101,7 @@ class _userdataState extends State<userdata> {
                 
                     Container(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           //upper side data
                           Container(
