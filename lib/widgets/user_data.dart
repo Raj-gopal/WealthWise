@@ -21,7 +21,7 @@ class _userdataState extends State<userdata> {
                   color: Color.fromRGBO(3, 127, 255, 1),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 22,left: 20),
+                  padding: const EdgeInsets.only(top: 17,left: 20),
                   child: Row(
                     children: [
                     //Left side Data
@@ -94,7 +94,7 @@ class _userdataState extends State<userdata> {
                     ),
                 
                     SizedBox(
-                      width: 112,
+                      width: 104,
                     ),
                 
                     //Right side Data
@@ -131,7 +131,7 @@ class _userdataState extends State<userdata> {
                             ),
                           ),
                           SizedBox(
-                            height: 40,
+                            height: 32,
                           ),
                 
                           //lower side data
