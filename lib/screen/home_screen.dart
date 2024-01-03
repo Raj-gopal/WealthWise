@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:wealthwise/widgets/user_data.dart';
 
@@ -58,13 +57,9 @@ class _home_pageState extends State<home_page> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-             
-              //pinned: true,
               expandedHeight: 240,
               flexibleSpace: FlexibleSpaceBar(
-                
                 background: Column(
-                  
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     userdata(),
@@ -75,72 +70,74 @@ class _home_pageState extends State<home_page> {
             SliverPersistentHeader(
               delegate: _SliverAppBarDelegate(
                 TabBar(
+                  dividerColor: Colors.transparent,
                   padding: EdgeInsets.only(left: 16),
-                 enableFeedback: false,
-                 
+                  enableFeedback: false,
                   isScrollable: true,
                   splashFactory: NoSplash.splashFactory,
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
-                   
                     color: Color.fromRGBO(215, 233, 252, 1),
+                   
                   ),
                   unselectedLabelColor: Color.fromRGBO(166, 166, 166, 1),
                   labelColor: Color.fromRGBO(3, 127, 255, 1),
                   tabs: [
-                   Tab(
-                     
+                    Tab(
                       child: Container(
-                          width: 104,
-                          decoration: BoxDecoration(),
-                          child: Center(
-                              child: Text(
+                        width: 104,
+                        decoration: BoxDecoration(),
+                        child: Center(
+                          child: Text(
                             'Explore',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                             ),
-                          ))),
+                          ),
+                        ),
+                      ),
                     ),
                     Tab(
                       child: Container(
-                        
                         width: 104,
-                          decoration: BoxDecoration(),
-                          child: Center(
-                              child: Text(
+                        decoration: BoxDecoration(),
+                        child: Center(
+                          child: Text(
                             'Holdings',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                             ),
-                          ))),
+                          ),
+                        ),
+                      ),
                     ),
                     Tab(
                       child: Container(
-                         
-                          width: 104,
-                          decoration: BoxDecoration(),
-                          child: Center(
-                              child: Text(
+                        width: 104,
+                        decoration: BoxDecoration(),
+                        child: Center(
+                          child: Text(
                             'My Watchlist',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                             ),
-                          ))),
-                   ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
               pinned: true,
             ),
             SliverFillRemaining(
-              
               child: TabBarView(
                 children: [
                   Container(
@@ -175,20 +172,18 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
-    
         children: [
           tabBar,
-        
-          // Add a custom divider or any other content below the TabBar
           Container(
-             // Adjust the height of the divider
-              color: Colors.transparent,
-               // Customize the color of the divider
-              ),
+            color: Colors.transparent,
+          ),
         ],
       ),
     );
