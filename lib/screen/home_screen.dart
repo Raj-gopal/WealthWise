@@ -1,8 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:wealthwise/widgets/user_data.dart';
 
 class home_page extends StatefulWidget {
-  const home_page({super.key});
+  const home_page({Key? key}) : super(key: key);
 
   @override
   State<home_page> createState() => _home_pageState();
@@ -11,79 +12,196 @@ class home_page extends StatefulWidget {
 class _home_pageState extends State<home_page> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            appBar: AppBar(
-              forceMaterialTransparency: true,
-              centerTitle: false,
-              backgroundColor: Color(0xFFF7F7F7),
-              elevation: 0,
-              title: Row(
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          elevation: 0,
+          forceMaterialTransparency: true,
+          title: Row(
+            children: [
+              Text(
+                'Investments',
+                style: TextStyle(
+                  color: Color(0xFF041727),
+                  fontFamily: 'Montserrat',
+                  fontSize: 32,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              SizedBox(
+                width: 72,
+              ),
+              //search icon
+              SizedBox(
+                height: 24,
+                width: 24,
+                child: Image(
+                  image: AssetImage('assets/image/search 1.png'),
+                ),
+              ),
+              SizedBox(
+                width: 24,
+              ),
+              //profile icon
+              SizedBox(
+                height: 45,
+                width: 45,
+                child: Image(
+                  image: AssetImage('assets/image/man 1.png'),
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+             
+              //pinned: true,
+              expandedHeight: 240,
+              flexibleSpace: FlexibleSpaceBar(
+                
+                background: Column(
+                  
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    userdata(),
+                  ],
+                ),
+              ),
+            ),
+            SliverPersistentHeader(
+              delegate: _SliverAppBarDelegate(
+                TabBar(
+                  padding: EdgeInsets.only(left: 16),
+                  enableFeedback: false,
+                  physics: BouncingScrollPhysics(),
+                  isScrollable: true,
+                  
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                   
+                    color: Color.fromRGBO(215, 233, 252, 1),
+                  ),
+                  unselectedLabelColor: Color.fromRGBO(166, 166, 166, 1),
+                  labelColor: Color.fromRGBO(3, 127, 255, 1),
+                  tabs: [
+                   Tab(
+                     
+                      child: Container(
+                          width: 104,
+                          decoration: BoxDecoration(),
+                          child: Center(
+                              child: Text(
+                            'Explore',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ))),
+                    ),
+                    Tab(
+                      child: Container(
+                        
+                        width: 104,
+                          decoration: BoxDecoration(),
+                          child: Center(
+                              child: Text(
+                            'Holdings',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ))),
+                    ),
+                    Tab(
+                      child: Container(
+                         
+                          width: 104,
+                          decoration: BoxDecoration(),
+                          child: Center(
+                              child: Text(
+                            'My Watchlist',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ))),
+                   ),
+                  ],
+                ),
+              ),
+              pinned: true,
+            ),
+            SliverFillRemaining(
+              
+              child: TabBarView(
                 children: [
-                  Text(
-                    'Investments',
-                    style: TextStyle(
-                        color: Color(0xFF041727),
-                        fontFamily: 'Montserrat',
-                        fontSize: 32,
-                        fontWeight: FontWeight.w900),
-                  ),
-
-                  SizedBox(
-                    width: 72,
-                  ),
-
-                  //search icon
-
-                  SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: Image(
-                      image: AssetImage(
-                        'assets/image/search 1.png',
-                      ),
+                  Container(
+                    child: Center(
+                      child: Text('Explore Content'),
                     ),
                   ),
-
-                  SizedBox(
-                    width: 24,
+                  Container(
+                    child: Center(
+                      child: Text('Holdings Content'),
+                    ),
                   ),
-
-                  //profile icon
-
-                  SizedBox(
-                    height: 45,
-                    width: 45,
-                    child: Image(
-                      image: AssetImage(
-                        'assets/image/man 1.png',
-                      ),
+                  Container(
+                    child: Center(
+                      child: Text('My Watchlist Content'),
                     ),
                   ),
                 ],
               ),
             ),
-            
-          body: Column(
-            children: [
-              
-              userdata(),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final TabBar tabBar;
 
-               Container(
-                padding: EdgeInsets.only(left: 20,),
-                child: ListView(
-                  
-                ),
-               )
+  _SliverAppBarDelegate(this.tabBar);
 
-            ],
-          ),
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Column(
+    
+        children: [
+          tabBar,
+        
+          // Add a custom divider or any other content below the TabBar
+          Container(
+             // Adjust the height of the divider
+              color: Colors.transparent,
+               // Customize the color of the divider
+              ),
+        ],
+      ),
+    );
+  }
 
+  @override
+  double get maxExtent => tabBar.preferredSize.height;
 
-            )
-          );
-            
+  @override
+  double get minExtent => tabBar.preferredSize.height;
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return false;
   }
 }
