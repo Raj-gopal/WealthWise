@@ -76,10 +76,10 @@ class _home_pageState extends State<home_page> {
               delegate: _SliverAppBarDelegate(
                 TabBar(
                   padding: EdgeInsets.only(left: 16),
-                  enableFeedback: false,
-                  physics: BouncingScrollPhysics(),
+                 enableFeedback: false,
+                 
                   isScrollable: true,
-                  
+                  splashFactory: NoSplash.splashFactory,
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
