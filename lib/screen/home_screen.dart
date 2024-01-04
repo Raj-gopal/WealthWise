@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wealthwise/section/Explore_section.dart';
 import 'package:wealthwise/widgets/user_data.dart';
 
 class home_page extends StatefulWidget {
@@ -9,6 +10,14 @@ class home_page extends StatefulWidget {
 }
 
 class _home_pageState extends State<home_page> {
+
+  final List<Widget> tabViews = [
+   Explore_section(),
+   Text('data'),
+   Text('data'),
+  ];
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -139,23 +148,9 @@ class _home_pageState extends State<home_page> {
             ),
             SliverFillRemaining(
               child: TabBarView(
-                children: [
-                  Container(
-                    child: Center(
-                      child: Text('Explore Content'),
-                    ),
-                  ),
-                  Container(
-                    child: Center(
-                      child: Text('Holdings Content'),
-                    ),
-                  ),
-                  Container(
-                    child: Center(
-                      child: Text('My Watchlist Content'),
-                    ),
-                  ),
-                ],
+                children: 
+                  tabViews,
+                
               ),
             ),
           ],
