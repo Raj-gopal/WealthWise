@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wealthwise/widgets/graph.dart';
 
 class Explore_section extends StatefulWidget {
   const Explore_section({super.key});
@@ -31,14 +32,7 @@ class _Explore_sectionState extends State<Explore_section> {
                   SizedBox(
                     width: 128,
                   ),
-                  Text(
-                    'ITC',
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: Color.fromRGBO(4, 23, 39, 1)),
-                  ),
+                 graph_section(),
                   SizedBox(
                     width: 56,
                   ),
