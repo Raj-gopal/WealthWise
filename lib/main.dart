@@ -7,7 +7,6 @@ import 'package:wealthwise/screen/spalsh_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // initialise app based on platform- web or mobile
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
