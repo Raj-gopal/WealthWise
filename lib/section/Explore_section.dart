@@ -37,18 +37,21 @@ class _Explore_sectionState extends State<Explore_section> {
                                     child: Container(
                                         padding: EdgeInsets.only(left: 8),
                                         child: Row(children: [
-                                          Text(
-                                            companyName[index].name.toString(),
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.w700,
-                                                color: Color.fromRGBO(
-                                                    4, 23, 39, 1)),
+                                          Container(
+                                            width: 40,
+                                            child: Text(
+                                              companyName[index].name.toString(),
+                                               maxLines: 1,
+                                              style: TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Color.fromRGBO(
+                                                      4, 23, 39, 1)),
+                                            ),
                                           ),
                                           SizedBox(
-                                            width: 128,
+                                            width: 96,
                                           ),
                                           graph_section(),
                                           SizedBox(
