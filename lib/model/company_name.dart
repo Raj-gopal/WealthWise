@@ -4,38 +4,94 @@
 
 import 'dart:convert';
 
-List<CompanyNameStockApi> companyNameStockApiFromJson(String str) => List<CompanyNameStockApi>.from(json.decode(str).map((x) => CompanyNameStockApi.fromJson(x)));
+CompanyNameStockApi companyNameStockApiFromJson(String str) => CompanyNameStockApi.fromJson(json.decode(str));
 
-String companyNameStockApiToJson(List<CompanyNameStockApi> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String companyNameStockApiToJson(CompanyNameStockApi data) => json.encode(data.toJson());
 
 class CompanyNameStockApi {
-    String symbol;
-    String name;
-    String? currency;
-    String stockExchange;
-    String exchangeShortName;
+    int queryCount;
+    int resultsCount;
+    bool adjusted;
+    List<Result> results;
+    String status;
+    String requestId;
+    int count;
 
     CompanyNameStockApi({
-        required this.symbol,
-        required this.name,
-        required this.currency,
-        required this.stockExchange,
-        required this.exchangeShortName,
+        required this.queryCount,
+        required this.resultsCount,
+        required this.adjusted,
+        required this.results,
+        required this.status,
+        required this.requestId,
+        required this.count,
     });
 
     factory CompanyNameStockApi.fromJson(Map<String, dynamic> json) => CompanyNameStockApi(
-        symbol: json["symbol"],
-        name: json["name"],
-        currency: json["currency"],
-        stockExchange: json["stockExchange"],
-        exchangeShortName: json["exchangeShortName"],
+        queryCount: json["queryCount"],
+        resultsCount: json["resultsCount"],
+        adjusted: json["adjusted"],
+        results: List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
+        status: json["status"],
+        requestId: json["request_id"],
+        count: json["count"],
     );
 
     Map<String, dynamic> toJson() => {
-        "symbol": symbol,
-        "name": name,
-        "currency": currency,
-        "stockExchange": stockExchange,
-        "exchangeShortName": exchangeShortName,
+        "queryCount": queryCount,
+        "resultsCount": resultsCount,
+        "adjusted": adjusted,
+        "results": List<dynamic>.from(results.map((x) => x.toJson())),
+        "status": status,
+        "request_id": requestId,
+        "count": count,
+    };
+}
+
+class Result {
+    String t;
+    double v;
+    double? vw;
+    double o;
+    double c;
+    double h;
+    double l;
+    int resultT;
+    int? n;
+
+    Result({
+        required this.t,
+        required this.v,
+        this.vw,
+        required this.o,
+        required this.c,
+        required this.h,
+        required this.l,
+        required this.resultT,
+        this.n,
+    });
+
+    factory Result.fromJson(Map<String, dynamic> json) => Result(
+        t: json["T"],
+        v: json["v"]?.toDouble(),
+        vw: json["vw"]?.toDouble(),
+        o: json["o"]?.toDouble(),
+        c: json["c"]?.toDouble(),
+        h: json["h"]?.toDouble(),
+        l: json["l"]?.toDouble(),
+        resultT: json["t"],
+        n: json["n"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "T": t,
+        "v": v,
+        "vw": vw,
+        "o": o,
+        "c": c,
+        "h": h,
+        "l": l,
+        "t": resultT,
+        "n": n,
     };
 }
