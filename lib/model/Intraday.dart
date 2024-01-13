@@ -1,14 +1,14 @@
 // To parse this JSON data, do
 //
-//     final dataStockApi = dataStockApiFromJson(jsonString);
+//     final graphStockApi = graphStockApiFromJson(jsonString);
 
 import 'dart:convert';
 
-DataStockApi dataStockApiFromJson(String str) => DataStockApi.fromJson(json.decode(str));
+GraphStockApi graphStockApiFromJson(String str) => GraphStockApi.fromJson(json.decode(str));
 
-String dataStockApiToJson(DataStockApi data) => json.encode(data.toJson());
+String graphStockApiToJson(GraphStockApi data) => json.encode(data.toJson());
 
-class DataStockApi {
+class GraphStockApi {
     String ticker;
     int queryCount;
     int resultsCount;
@@ -18,7 +18,7 @@ class DataStockApi {
     String requestId;
     int count;
 
-    DataStockApi({
+    GraphStockApi({
         required this.ticker,
         required this.queryCount,
         required this.resultsCount,
@@ -29,7 +29,7 @@ class DataStockApi {
         required this.count,
     });
 
-    factory DataStockApi.fromJson(Map<String, dynamic> json) => DataStockApi(
+    factory GraphStockApi.fromJson(Map<String, dynamic> json) => GraphStockApi(
         ticker: json["ticker"],
         queryCount: json["queryCount"],
         resultsCount: json["resultsCount"],
