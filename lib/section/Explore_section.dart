@@ -61,7 +61,7 @@ class _Explore_sectionState extends State<Explore_section> {
                                       SizedBox(
                                         width: 40,
                                       ),
-                                      //graph_section(),
+                                      graph_section(),
                                       SizedBox(
                                         width: 136,
                                       ),

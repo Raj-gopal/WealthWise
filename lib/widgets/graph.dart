@@ -15,32 +15,25 @@ class graph_section extends StatefulWidget {
 }
 
 class _graph_sectionState extends State<graph_section> {
-     List<CompanyNameStockApi>  companyName = [];
+  List<GraphStockApi> graphstockApi = [];
 
   @override
   Widget build(BuildContext context) {
+    
     return FutureBuilder(
-      future: getname(),
+      future: getdata(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
-            itemCount: companyName.length,
+            itemCount: snapshot.data?.results.length,
             itemBuilder: (context, index) {
               return Container(
                 width: 32,
                 height: 56,
                 child: Sparkline(
-                  data: [0,1,2,-7,4,5,6,-1,4,-3],
-                  lineWidth: 1.5,
-                  lineColor: Color.fromRGBO(18, 209, 142, 1),
-                  fillMode: FillMode.below,
-                  fillGradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Color.fromRGBO(152, 243, 150, 1), Colors.white],
+                 data: [1,2,-6,-1,5],
                   ),
-                ),
-              );
+                );          
             },
           );
         } else if (snapshot.hasError) {
@@ -56,21 +49,15 @@ class _graph_sectionState extends State<graph_section> {
     );
   }
 
+  Future<GraphStockApi> getdata() async {
+    final response = await http.get(Uri.parse(
+        'https://api.polygon.io/v2/aggs/ticker/VNLA/range/1/minute/2023-01-11/2023-01-11?sort=desc&limit=10&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
+    var data = jsonDecode(response.body.toString());
 
-  Future<List<CompanyNameStockApi>> getname() async{
-
-   final response = await http.get(Uri.parse('https://financialmodelingprep.com/api/v3/search?query=AA&apikey=T7P7eb7IvqOle9pHS0dnSx7mht424blu'));
-   var data = jsonDecode(response.body.toString());
-
-   if (response.statusCode==200) {
-     for (Map<String, dynamic> i in data) {
-       companyName.add(CompanyNameStockApi.fromJson(i));
-     }
-     return companyName;
-   } else {
-     return companyName;
-   }
+    if (response.statusCode == 200) {
+      return GraphStockApi.fromJson(data);
+    } else {
+      return GraphStockApi.fromJson(data);
+    }
   }
-  
-  }
-
+}
