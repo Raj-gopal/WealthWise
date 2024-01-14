@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:wealthwise/model/company_name.dart';
+import 'package:wealthwise/screen/detail.dart';
 import 'package:wealthwise/widgets/graph.dart';
 
 class Explore_section extends StatefulWidget {
@@ -40,7 +42,14 @@ class _Explore_sectionState extends State<Explore_section> {
                                 height: 72,
                                 padding: EdgeInsets.only(top: 8),
                                 child: GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                            builder: (context) =>
+                                                const stock_detail()),
+                                      );
+                                    },
                                     child: Container(
                                         // padding: EdgeInsets.only(left: 8),
                                         child: Row(children: [
@@ -61,7 +70,7 @@ class _Explore_sectionState extends State<Explore_section> {
                                       SizedBox(
                                         width: 40,
                                       ),
-                                      graph_section(),
+                                      // graph_section(),
                                       SizedBox(
                                         width: 136,
                                       ),
@@ -73,7 +82,6 @@ class _Explore_sectionState extends State<Explore_section> {
                                             children: [
                                               RichText(
                                                 maxLines: 1,
-                                                
                                                 textAlign: TextAlign.right,
                                                 text: TextSpan(
                                                   children: <TextSpan>[
@@ -163,7 +171,6 @@ class _Explore_sectionState extends State<Explore_section> {
                                                                       index]
                                                                   .o)
                                                           .toStringAsFixed(2),
-                                                        
                                                       style: TextStyle(
                                                           fontFamily:
                                                               'Montserrat',

@@ -17,6 +17,7 @@ class GraphStockApi {
     String status;
     String requestId;
     int count;
+    String nextUrl;
 
     GraphStockApi({
         required this.ticker,
@@ -27,6 +28,7 @@ class GraphStockApi {
         required this.status,
         required this.requestId,
         required this.count,
+        required this.nextUrl,
     });
 
     factory GraphStockApi.fromJson(Map<String, dynamic> json) => GraphStockApi(
@@ -38,6 +40,7 @@ class GraphStockApi {
         status: json["status"],
         requestId: json["request_id"],
         count: json["count"],
+        nextUrl: json["next_url"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -49,6 +52,7 @@ class GraphStockApi {
         "status": status,
         "request_id": requestId,
         "count": count,
+        "next_url": nextUrl,
     };
 }
 
