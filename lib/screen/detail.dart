@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'package:chart_sparkline/chart_sparkline.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:wealthwise/model/Intraday.dart';
 import 'package:wealthwise/model/company_name.dart';
 
@@ -21,7 +22,7 @@ class _stock_detailState extends State<stock_detail> {
     if (response.statusCode == 200) {
       return GraphStockApi.fromJson(data);
     } else {
-      return GraphStockApi.fromJson(data);
+      throw Exception('Failed to load data');
     }
   }
 
@@ -87,9 +88,9 @@ class _stock_detailState extends State<stock_detail> {
                     );
                   } else {
                     return Container(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
                             snapshot.data!.results[0].t.toString(),
                             style: TextStyle(
@@ -168,50 +169,72 @@ class _stock_detailState extends State<stock_detail> {
                               ],
                             ),
                           ),
-                        ]));
+                        ],
+                      ),
+                    );
                   }
                 }),
             SizedBox(
               height: 24,
             ),
             Container(
-                height: 292,
-                child: FutureBuilder(
-                    future: getdata(),
-                    builder: (context, AsyncSnapshot<GraphStockApi> snapshot) {
-                      if (!snapshot.hasData) {
-                        return Container(
-                          alignment: Alignment.center,
-                            height: 80,
-                            width: 80,
-                            child: CircularProgressIndicator(
-                              color: Color.fromRGBO(3, 127, 255, 1),
-                            ));
-                      } else {
-                        var sparklineData = snapshot.data!.results
-                            .map<double>(
-                                (result) => double.parse(result.vw.toString()))
-                            .toList();
+              height: 292,
+              child: FutureBuilder(
+                  future: getdata(),
+                  builder: (context, AsyncSnapshot<GraphStockApi> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Container(
+                        alignment: Alignment.center,
+                        height: 80,
+                        width: 80,
+                        child: CircularProgressIndicator(
+                          color: Color.fromRGBO(3, 127, 255, 1),
+                        ),
+                      );
+                    } else {
+                      // Extracting the VWAP (Volume Weighted Average Price) data
+                      List<double> vwData = snapshot.data!.results
+                          .map<double>((result) => result.vw.toDouble())
+                          .toList();
 
-                        return Container(
-                            child: Sparkline(
-                          data: sparklineData,
-                          lineWidth: 2,
-                          lineColor: Color.fromRGBO(18, 209, 142, 1),
-                          fillMode: FillMode.below,
-                          fillGradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromRGBO(18, 209, 142, 1),
-                              Colors.white10
-                            ],
+                      // Extracting the corresponding x-axis values (timestamps)
+                      List<double> timestamps = snapshot.data!.results
+                          .map<double>((result) => result.t.toDouble())
+                          .toList();
+
+                      // Building the LineChart widget
+                      return LineChart(
+                        LineChartData(
+                          gridData: FlGridData(show: false),
+                          titlesData: FlTitlesData(show: false),
+                          borderData: FlBorderData(
+                            show: true,
+                            border: Border.all(
+                              color: const Color(0xff37434d),
+                              width: 1,
+                            ),
                           ),
-                          averageLine: true,
-                          averageLabel: true,
-                        ));
-                      }
-                    }))
+                          minX: timestamps.first,
+                          maxX: timestamps.last,
+                          minY: vwData.reduce((value, element) => value < element ? value : element),
+                          maxY: vwData.reduce((value, element) => value > element ? value : element),
+                          lineBarsData: [
+                            LineChartBarData(
+                              spots: List.generate(
+                                vwData.length,
+                                (index) => FlSpot(timestamps[index], vwData[index]),
+                              ),
+                              isCurved: true,
+                           //   colors: [const Color(0xff4af699)],
+                              dotData: FlDotData(show: false),
+                              belowBarData: BarAreaData(show: false),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  }),
+            ),
           ],
         ),
       ),
@@ -220,13 +243,13 @@ class _stock_detailState extends State<stock_detail> {
 
   Future<CompanyNameStockApi> getdataname() async {
     final response = await http.get(Uri.parse(
-        'https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/minute/2024-01-12/2024-01-12?sort=desc&limit=500&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
+        'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-11?adjusted=true&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
     var data = jsonDecode(response.body.toString());
 
     if (response.statusCode == 200) {
       return CompanyNameStockApi.fromJson(data);
     } else {
-      return CompanyNameStockApi.fromJson(data);
+      throw Exception('Failed to load data');
     }
   }
 }
