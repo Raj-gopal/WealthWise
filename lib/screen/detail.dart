@@ -2,7 +2,11 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+=======
 import 'package:fl_chart/fl_chart.dart';
+>>>>>>> ca3f225e070225dafb34dc4d1a79197bc09480ff
 import 'package:wealthwise/model/Intraday.dart';
 import 'package:wealthwise/model/company_name.dart';
 
@@ -16,7 +20,7 @@ class stock_detail extends StatefulWidget {
 class _stock_detailState extends State<stock_detail> {
   Future<GraphStockApi> getdata() async {
     final response = await http.get(Uri.parse(
-        'https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/minute/2024-01-12/2024-01-12?sort=desc&limit=50&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
+        'https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/minute/2024-01-12/2024-01-12?sort=desc&limit=100&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
     var data = jsonDecode(response.body.toString());
 
     if (response.statusCode == 200) {
@@ -178,6 +182,40 @@ class _stock_detailState extends State<stock_detail> {
               height: 24,
             ),
             Container(
+<<<<<<< HEAD
+                height: 292,
+                child: FutureBuilder(
+                    future: getdata(),
+                    builder: (context, AsyncSnapshot<GraphStockApi> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Container(
+                            alignment: Alignment.center,
+                            height: 80,
+                            width: 80,
+                            child: CircularProgressIndicator(
+                              color: Color.fromRGBO(3, 127, 255, 1),
+                            ));
+                      } else {
+                        var sparklineData = snapshot.data!.results
+                            .map<double>(
+                                (result) => double.parse(result.vw.toString()))
+                            .toList();
+
+                        return Container(
+                          child: SfSparkLineChart(
+                              data: sparklineData,
+                              color: Color.fromRGBO(18, 209, 142, 1),
+                              axisLineColor: Colors.transparent,
+                              trackball: SparkChartTrackball(
+                                  width: 1,
+                                  backgroundColor: Colors.white,
+                                  //  borderColor: Colors.black ,
+                                  activationMode:
+                                      SparkChartActivationMode.tap)),
+                        );
+                      }
+                    }))
+=======
               height: 292,
               child: FutureBuilder(
                   future: getdata(),
@@ -235,6 +273,7 @@ class _stock_detailState extends State<stock_detail> {
                     }
                   }),
             ),
+>>>>>>> ca3f225e070225dafb34dc4d1a79197bc09480ff
           ],
         ),
       ),
