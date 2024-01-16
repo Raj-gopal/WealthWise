@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:wealthwise/model/Intraday.dart';
 import 'package:wealthwise/model/company_name.dart';
 
@@ -15,7 +16,7 @@ class stock_detail extends StatefulWidget {
 class _stock_detailState extends State<stock_detail> {
   Future<GraphStockApi> getdata() async {
     final response = await http.get(Uri.parse(
-        'https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/minute/2024-01-12/2024-01-12?sort=desc&limit=50&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
+        'https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/minute/2024-01-12/2024-01-12?sort=desc&limit=100&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
     var data = jsonDecode(response.body.toString());
 
     if (response.statusCode == 200) {
@@ -181,7 +182,7 @@ class _stock_detailState extends State<stock_detail> {
                     builder: (context, AsyncSnapshot<GraphStockApi> snapshot) {
                       if (!snapshot.hasData) {
                         return Container(
-                          alignment: Alignment.center,
+                            alignment: Alignment.center,
                             height: 80,
                             width: 80,
                             child: CircularProgressIndicator(
@@ -194,22 +195,17 @@ class _stock_detailState extends State<stock_detail> {
                             .toList();
 
                         return Container(
-                            child: Sparkline(
-                          data: sparklineData,
-                          lineWidth: 2,
-                          lineColor: Color.fromRGBO(18, 209, 142, 1),
-                          fillMode: FillMode.below,
-                          fillGradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromRGBO(18, 209, 142, 1),
-                              Colors.white10
-                            ],
-                          ),
-                          averageLine: true,
-                          averageLabel: true,
-                        ));
+                          child: SfSparkLineChart(
+                              data: sparklineData,
+                              color: Color.fromRGBO(18, 209, 142, 1),
+                              axisLineColor: Colors.transparent,
+                              trackball: SparkChartTrackball(
+                                  width: 1,
+                                  backgroundColor: Colors.white,
+                                  //  borderColor: Colors.black ,
+                                  activationMode:
+                                      SparkChartActivationMode.tap)),
+                        );
                       }
                     }))
           ],
@@ -220,7 +216,7 @@ class _stock_detailState extends State<stock_detail> {
 
   Future<CompanyNameStockApi> getdataname() async {
     final response = await http.get(Uri.parse(
-        'https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/minute/2024-01-12/2024-01-12?sort=desc&limit=500&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
+        'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-11?adjusted=true&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
     var data = jsonDecode(response.body.toString());
 
     if (response.statusCode == 200) {
