@@ -1,57 +1,71 @@
 import 'dart:convert';
-
 import 'package:chart_sparkline/chart_sparkline.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 import 'package:wealthwise/model/Intraday.dart';
-import 'package:wealthwise/model/company_name.dart';
-import 'package:wealthwise/widgets/user_data.dart';
 
-class graph_section extends StatefulWidget {
-  graph_section({Key? key}) : super(key: key);
+class candelstickgraph extends StatefulWidget {
+  const candelstickgraph({super.key});
 
   @override
-  State<graph_section> createState() => _graph_sectionState();
+  State<candelstickgraph> createState() => _candelstickgraphState();
 }
 
-class _graph_sectionState extends State<graph_section> {
-  List<GraphStockApi> graphstockApi = [];
-
+class _candelstickgraphState extends State<candelstickgraph> {
   @override
   Widget build(BuildContext context) {
-    
-    return FutureBuilder(
-      future: getdata(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: snapshot.data?.results.length,
-            itemBuilder: (context, index) {
-              return Container(
-                width: 32,
-                height: 56,
-                child: Sparkline(
-                 data: [1,2,-6,-1,5],
-                  ),
-                );          
-            },
-          );
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          );
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
+    return Container(
+      height: 292,
+       
+      child: Column(
+
+        children: [
+          FutureBuilder(
+                    future: getdataname(),
+                    builder: (context, AsyncSnapshot<GraphStockApi> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Container(
+                          alignment: Alignment.center,
+                            height: 80,
+                            width: 80,
+                            child: CircularProgressIndicator(
+                              color: Color.fromRGBO(3, 127, 255, 1),
+                            ));
+                      } else {
+                        var sparklineData = snapshot.data!.results
+                            .map<double>(
+                                (result) => double.parse(result.vw.toString()))
+                            .toList();
+
+                        return Container(
+                            child: Sparkline(
+                          data: sparklineData,
+                          lineWidth: 2,
+                          lineColor: Color.fromRGBO(18, 209, 142, 1),
+                          fillMode: FillMode.below,
+                          fillGradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color.fromRGBO(18, 209, 142, 1),
+                              Colors.white10
+                            ],
+                          ),
+                          averageLine: true,
+                          averageLabel: true,
+                        ));
+                      }
+                    })
+        ],
+   
+      ),
+
     );
   }
 
-  Future<GraphStockApi> getdata() async {
+ Future<GraphStockApi> getdataname() async {
     final response = await http.get(Uri.parse(
-        'https://api.polygon.io/v2/aggs/ticker/VNLA/range/1/minute/2023-01-11/2023-01-11?sort=desc&limit=10&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
+        'https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/minute/2023-01-12/2023-01-12?sort=desc&limit=50&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKqq'));
     var data = jsonDecode(response.body.toString());
 
     if (response.statusCode == 200) {
