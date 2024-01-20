@@ -2,26 +2,22 @@ import 'dart:convert';
 import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+
 import 'package:wealthwise/model/Intraday.dart';
 
-class candelstickgraph extends StatefulWidget {
-  const candelstickgraph({super.key});
+class CandlestickGraph extends StatefulWidget {
+  const CandlestickGraph({Key? key}) : super(key: key);
 
   @override
-  State<candelstickgraph> createState() => _candelstickgraphState();
+  _CandlestickGraphState createState() => _CandlestickGraphState();
 }
 
-class _candelstickgraphState extends State<candelstickgraph> {
+class _CandlestickGraphState extends State<CandlestickGraph> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 292,
-       
-      child: Column(
-
-        children: [
-          FutureBuilder(
-                    future: getdataname(),
+    return Expanded(
+      child: FutureBuilder(
+                    future: getdata(),
                     builder: (context, AsyncSnapshot<GraphStockApi> snapshot) {
                       if (!snapshot.hasData) {
                         return Container(
@@ -36,7 +32,7 @@ class _candelstickgraphState extends State<candelstickgraph> {
                             .map<double>(
                                 (result) => double.parse(result.vw.toString()))
                             .toList();
-
+    
                         return Container(
                             child: Sparkline(
                           data: sparklineData,
@@ -55,17 +51,14 @@ class _candelstickgraphState extends State<candelstickgraph> {
                           averageLabel: true,
                         ));
                       }
-                    })
-        ],
-   
-      ),
-
+                    }),
     );
+    
   }
 
- Future<GraphStockApi> getdataname() async {
+    Future<GraphStockApi> getdata() async {
     final response = await http.get(Uri.parse(
-        'https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/minute/2023-01-12/2023-01-12?sort=desc&limit=50&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKqq'));
+        'https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/minute/2024-01-12/2024-01-12?sort=desc&limit=50&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
     var data = jsonDecode(response.body.toString());
 
     if (response.statusCode == 200) {
@@ -74,4 +67,4 @@ class _candelstickgraphState extends State<candelstickgraph> {
       return GraphStockApi.fromJson(data);
     }
   }
-}
+  }
