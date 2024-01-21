@@ -12,8 +12,6 @@ class stock_detail extends StatefulWidget {
 }
 
 class _stock_detailState extends State<stock_detail> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,19 +61,11 @@ class _stock_detailState extends State<stock_detail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Basicdata(),
-
             SizedBox(
               height: 24,
             ),
-            
-            Expanded(
-              child: Container(
-                  height: 292,
-                  child: CandlestickGraph()
-                  ),
-            ),
+            Container(height: 292, child: Expanded(child: CandlestickGraph())),
           ],
         ),
       ),
@@ -84,102 +74,102 @@ class _stock_detailState extends State<stock_detail> {
 
   FutureBuilder<CompanyNameStockApi> Basicdata() {
     return FutureBuilder(
-              future: getdataname(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Container(
-                    height: 80,
-                    width: 80,
-                    child: CircularProgressIndicator(
-                      color: Color.fromRGBO(3, 127, 255, 1),
+        future: getdataname(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Container(
+              height: 80,
+              width: 80,
+              child: CircularProgressIndicator(
+                color: Color.fromRGBO(3, 127, 255, 1),
+              ),
+            );
+          } else {
+            return Container(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                  Text(
+                    snapshot.data!.results[0].t.toString(),
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: Color.fromRGBO(4, 23, 39, 1)),
+                  ),
+                  Text(
+                    '＄' + snapshot.data!.results[0].vw.toString(),
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: Color.fromRGBO(4, 23, 39, 1)),
+                  ),
+                  RichText(
+                    maxLines: 1,
+                    textAlign: TextAlign.right,
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: snapshot.data!.results[0].c -
+                                      snapshot.data!.results[0].o >=
+                                  0
+                              ? '+'
+                              : '',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: snapshot.data!.results[0].c -
+                                          snapshot.data!.results[0].o >=
+                                      0
+                                  ? Color.fromRGBO(18, 209, 142, 1)
+                                  : Color.fromRGBO(209, 18, 18, 1)),
+                        ),
+                        TextSpan(
+                          text: (snapshot.data!.results[0].c -
+                                  snapshot.data!.results[0].o)
+                              .toStringAsFixed(2),
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: snapshot.data!.results[0].c -
+                                          snapshot.data!.results[0].o >=
+                                      0
+                                  ? Color.fromRGBO(18, 209, 142, 1)
+                                  : Color.fromRGBO(209, 18, 18, 1)),
+                        ),
+                        TextSpan(
+                          text: '%',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: snapshot.data!.results[0].c -
+                                          snapshot.data!.results[0].o >=
+                                      0
+                                  ? Color.fromRGBO(18, 209, 142, 1)
+                                  : Color.fromRGBO(209, 18, 18, 1)),
+                        ),
+                        TextSpan(
+                          text: ' (1D)',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: snapshot.data!.results[0].c -
+                                          snapshot.data!.results[0].o >=
+                                      0
+                                  ? Color.fromRGBO(18, 209, 142, 1)
+                                  : Color.fromRGBO(209, 18, 18, 1)),
+                        ),
+                      ],
                     ),
-                  );
-                } else {
-                  return Container(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                        Text(
-                          snapshot.data!.results[0].t.toString(),
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700,
-                              color: Color.fromRGBO(4, 23, 39, 1)),
-                        ),
-                        Text(
-                          '＄' + snapshot.data!.results[0].vw.toString(),
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700,
-                              color: Color.fromRGBO(4, 23, 39, 1)),
-                        ),
-                        RichText(
-                          maxLines: 1,
-                          textAlign: TextAlign.right,
-                          text: TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: snapshot.data!.results[0].c -
-                                            snapshot.data!.results[0].o >=
-                                        0
-                                    ? '+'
-                                    : '',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: snapshot.data!.results[0].c -
-                                                snapshot.data!.results[0].o >=
-                                            0
-                                        ? Color.fromRGBO(18, 209, 142, 1)
-                                        : Color.fromRGBO(209, 18, 18, 1)),
-                              ),
-                              TextSpan(
-                                text: (snapshot.data!.results[0].c -
-                                        snapshot.data!.results[0].o)
-                                    .toStringAsFixed(2),
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: snapshot.data!.results[0].c -
-                                                snapshot.data!.results[0].o >=
-                                            0
-                                        ? Color.fromRGBO(18, 209, 142, 1)
-                                        : Color.fromRGBO(209, 18, 18, 1)),
-                              ),
-                              TextSpan(
-                                text: '%',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: snapshot.data!.results[0].c -
-                                                snapshot.data!.results[0].o >=
-                                            0
-                                        ? Color.fromRGBO(18, 209, 142, 1)
-                                        : Color.fromRGBO(209, 18, 18, 1)),
-                              ),
-                              TextSpan(
-                                text: ' (1D)',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: snapshot.data!.results[0].c -
-                                                snapshot.data!.results[0].o >=
-                                            0
-                                        ? Color.fromRGBO(18, 209, 142, 1)
-                                        : Color.fromRGBO(209, 18, 18, 1)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]));
-                }
-              });
+                  ),
+                ]));
+          }
+        });
   }
 
   Future<CompanyNameStockApi> getdataname() async {
@@ -194,4 +184,3 @@ class _stock_detailState extends State<stock_detail> {
     }
   }
 }
-
