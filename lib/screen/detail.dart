@@ -65,7 +65,7 @@ class _stock_detailState extends State<stock_detail> {
             SizedBox(
               height: 24,
             ),
-            Container(height: 292, child: Expanded(child: CandlestickGraph())),
+            Container(height: 292, child: CandlestickGraph()),
           ],
         ),
       ),
