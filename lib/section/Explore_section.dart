@@ -47,7 +47,7 @@ class _Explore_sectionState extends State<Explore_section> {
                                         context,
                                         CupertinoPageRoute(
                                             builder: (context) =>
-                                                const stock_detail()),
+                                                const StockDetail()),
                                       );
                                     },
                                     child: Container(
