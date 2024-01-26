@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wealthwise/model/company_name.dart';
@@ -61,88 +62,102 @@ class _StockDetailState extends State<StockDetail> {
       ),
       body: DefaultTabController(
         length: 3,
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              SliverToBoxAdapter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BasicData(),
-                    SizedBox(height: 24),
-                    Container(height: 292, child: CandlestickGraph()),
-                    SizedBox(height: 24),
-                    tab(),
-                    SizedBox(height: 32),
-                  ],
-                ),
-              ),
-              SliverPersistentHeader(
-                delegate: _SliverAppBarDelegate(
-                  TabBar(
-                    // Your existing TabBar code...
-                    tabs: [
-                      Tab(
-                        child: Container(
-                          width: 104,
-                          decoration: BoxDecoration(),
-                          child: Center(
-                            child: Text(
-                              'Overview',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Tab(
-                        child: Container(
-                          width: 104,
-                          decoration: BoxDecoration(),
-                          child: Center(
-                            child: Text(
-                              'Rating',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Tab(
-                        child: Container(
-                          width: 104,
-                          decoration: BoxDecoration(),
-                          child: Center(
-                            child: Text(
-                              'News',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+          child: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return [
+                SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      BasicData(),
+                      SizedBox(height: 24),
+                      Container(height: 292, child: CandlestickGraph()),
+                      SizedBox(height: 24),
+                      tab(),
+                      SizedBox(height: 32),
                     ],
                   ),
                 ),
-                pinned: true,
-              ),
-            ];
-          },
-          body: TabBarView(
-            children: [
-              Overview_section(),
-              Text('Rate'),
-              Text('News'),
-            ],
+                SliverPersistentHeader(
+                  delegate: _SliverAppBarDelegate(
+                    TabBar(
+                   
+                      dividerColor: Colors.transparent,
+                      enableFeedback: false,
+                      isScrollable: true,
+                      splashFactory: NoSplash.splashFactory,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicator: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
+                        color: Color.fromRGBO(215, 233, 252, 1),
+                      ),
+                      unselectedLabelColor: Color.fromRGBO(166, 166, 166, 1),
+                      labelColor: Color.fromRGBO(3, 127, 255, 1),
+                      tabs: [
+                        Tab(
+                          child: Container(
+                            width: 104,
+                            decoration: BoxDecoration(),
+                            child: Center(
+                              child: Text(
+                                'Overview',
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Tab(
+                          child: Container(
+                            width: 104,
+                            decoration: BoxDecoration(),
+                            child: Center(
+                              child: Text(
+                                'Rating',
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Tab(
+                          child: Container(
+                            width: 104,
+                            decoration: BoxDecoration(),
+                            child: Center(
+                              child: Text(
+                                'News',
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  pinned: true,
+                ),
+              ];
+            },
+            body: TabBarView(
+              children: [
+                Overview_section(),
+                Text('Rate'),
+                Text('News'),
+              ],
+            ),
           ),
         ),
       ),
@@ -530,6 +545,7 @@ Future<CompanyNameStockApi> getCompanyName() async {
     throw Exception('Failed to load company name');
   }
 }
+
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar _tabBar;
 
