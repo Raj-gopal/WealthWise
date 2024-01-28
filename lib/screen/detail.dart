@@ -73,7 +73,7 @@ class _StockDetailState extends State<StockDetail> {
                     children: [
                       BasicData(),
                       SizedBox(height: 24),
-                      Container(height: 292, child: CandlestickGraph()),
+                    //  Container(height: 292, child: CandlestickGraph()),
                       SizedBox(height: 24),
                       tab(),
                       SizedBox(height: 32),
@@ -83,7 +83,6 @@ class _StockDetailState extends State<StockDetail> {
                 SliverPersistentHeader(
                   delegate: _SliverAppBarDelegate(
                     TabBar(
-                   
                       dividerColor: Colors.transparent,
                       enableFeedback: false,
                       isScrollable: true,
@@ -546,25 +545,40 @@ Future<CompanyNameStockApi> getCompanyName() async {
   }
 }
 
+
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar _tabBar;
+  final TabBar tabBar;
 
-  _SliverAppBarDelegate(this._tabBar);
-
-  @override
-  double get minExtent => _tabBar.preferredSize.height;
-
-  @override
-  double get maxExtent => _tabBar.preferredSize.height;
+  _SliverAppBarDelegate(this.tabBar);
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return _tabBar;
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Column(
+        children: [
+          tabBar,
+          Container(
+            color: Colors.transparent,
+          ),
+        ],
+      ),
+    );
   }
+
+  @override
+  double get maxExtent => tabBar.preferredSize.height;
+
+  @override
+  double get minExtent => tabBar.preferredSize.height;
 
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
     return false;
   }
 }
+ 
