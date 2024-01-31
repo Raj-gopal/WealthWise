@@ -152,7 +152,7 @@ class _StockDetailState extends State<StockDetail> {
             },
             body: TabBarView(
               children: [
-                Overview_section(),
+                OverviewSection(),
                 Text('Rate'),
                 Text('News'),
               ],
