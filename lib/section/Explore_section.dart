@@ -14,7 +14,6 @@ class Explore_section extends StatefulWidget {
 }
 
 class _Explore_sectionState extends State<Explore_section> {
-  // List<CompanyNameStockApi> companyName = [];
   @override
   Widget build(BuildContext context) {
     return Padding(
