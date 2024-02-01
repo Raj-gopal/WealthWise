@@ -71,7 +71,10 @@ class _StockDetailState extends State<StockDetail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      BasicData(),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: BasicData(),
+                      ),
                       SizedBox(height: 24),
                     //  Container(height: 292, child: CandlestickGraph()),
                       SizedBox(height: 24),
