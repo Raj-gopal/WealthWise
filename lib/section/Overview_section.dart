@@ -3,6 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wealthwise/model/About_company.dart';
 
+class CompanyModel {
+  final String name;
+  final String description;
+  final String ticker;
+  final String address;
+  // Add more fields as needed
+
+  CompanyModel({
+    required this.name,
+    required this.description,
+    required this.ticker,
+    required this.address,
+    // Add more fields as needed
+  });
+
+  factory CompanyModel.fromJson(Map<String, dynamic> json) {
+    return CompanyModel(
+      name: json['results']['name'],
+      description: json['results']['description'],
+      ticker: json['results']['ticker'],
+      address: "${json['results']['address']['city']}, ${json['results']['address']['state']}",
+      // Initialize other fields
+    );
+  }
+}
+
 class FinancialData {
   final Map<String, dynamic> balanceSheet;
 
@@ -221,7 +247,13 @@ class _OverviewSectionState extends State<OverviewSection> {
                     child: Text('No data available'),
                   );
                 } else {
-                  return Text(snapshot.data!.results.name.toString());
+                  return Column(
+                    children: [
+                      ItemWidget(label: 'Name', value: snapshot.data!.name),
+                      ItemWidget(label: 'Address', value: snapshot.data!.address),
+                      ItemWidget(label: 'Ticker', value: snapshot.data!.ticker),
+                    ],
+                  );
                 }
               })
         ],
@@ -248,16 +280,14 @@ void main() {
   ));
 }
 
-Future<AboutCompany> getAboutCompany() async {
-  final response = await http.get(Uri.parse(
-      'https://api.polygon.io/v3/reference/tickers/AAPL?apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
-
-   var data = jsonDecode(response.body.toString());
+Future<CompanyModel> getAboutCompany() async {
+  
+  final response = await http.get(Uri.parse('https://api.polygon.io/v3/reference/tickers/AAPL?apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
 
   if (response.statusCode == 200) {
-    //Map<String, dynamic> data = jsonDecode(response.body.toString());
-    return AboutCompany.fromJson(data);
+    Map<String, dynamic> data = jsonDecode(response.body.toString());
+    return CompanyModel.fromJson(data);
   } else {
-    throw Exception('Failed to load financial data');
+    throw Exception('Failed to load company data');
   }
 }
