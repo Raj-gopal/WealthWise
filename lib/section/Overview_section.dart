@@ -255,7 +255,17 @@ class _OverviewSectionState extends State<OverviewSection> {
                     ],
                   );
                 }
-              })
+              }),
+                SizedBox(height: 16),
+          Text(
+            'More Stocks',
+            style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(height: 8),
         ],
       ),
     );
