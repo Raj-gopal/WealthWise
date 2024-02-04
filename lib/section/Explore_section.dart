@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:wealthwise/model/company_name.dart';
-import 'package:wealthwise/screen/detail.dart';
+import 'package:wealthwise/screen/Stock_screen.dart';
 import 'package:wealthwise/widgets/graph.dart';
 
 class Explore_section extends StatefulWidget {
