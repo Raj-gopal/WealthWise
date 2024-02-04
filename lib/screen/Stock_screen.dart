@@ -3,6 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wealthwise/model/company_name.dart';
+import 'package:wealthwise/screen/Add_Fund.dart';
+import 'package:wealthwise/screen/profile_screen.dart';
 import 'package:wealthwise/section/Overview_section.dart';
 import 'package:wealthwise/widgets/graph.dart';
 
@@ -50,11 +52,20 @@ class _StockDetailState extends State<StockDetail> {
               width: 24,
             ),
             // profile icon
-            SizedBox(
-              height: 45,
-              width: 45,
-              child: Image(
-                image: AssetImage('assets/image/man 1.png'),
+            GestureDetector(
+               onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const profile_screen()),
+                  );
+                },
+              child: SizedBox(
+                height: 45,
+                width: 45,
+                child: Image(
+                  image: AssetImage('assets/image/man 1.png'),
+                ),
               ),
             ),
           ],
@@ -76,7 +87,7 @@ class _StockDetailState extends State<StockDetail> {
                         child: BasicData(),
                       ),
                       SizedBox(height: 24),
-                     // Container(height: 292, child: CandlestickGraph()),
+                      // Container(height: 292, child: CandlestickGraph()),
                       SizedBox(height: 24),
                       tab(),
                       SizedBox(height: 32),
@@ -173,7 +184,9 @@ class _StockDetailState extends State<StockDetail> {
       color: Colors.white,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context,MaterialPageRoute(builder: (context) =>Add_Fund()));
+            },
             child: Container(
               height: 64,
               width: 185 - 8,
@@ -195,7 +208,9 @@ class _StockDetailState extends State<StockDetail> {
               ),
             )),
         GestureDetector(
-            onTap: () {},
+            onTap: () {
+               Navigator.push(context,MaterialPageRoute(builder: (context) =>Add_Fund()));
+            },
             child: Container(
               height: 64,
               width: 185 - 8,
@@ -548,7 +563,6 @@ Future<CompanyNameStockApi> getCompanyName() async {
   }
 }
 
-
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar tabBar;
 
@@ -584,4 +598,3 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     return false;
   }
 }
- 

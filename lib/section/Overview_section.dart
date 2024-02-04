@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wealthwise/model/About_company.dart';
 import 'package:wealthwise/model/company_name.dart';
-import 'package:wealthwise/screen/detail.dart';
+import 'package:wealthwise/screen/Stock_screen.dart';
 
 class CompanyModel {
   final String name;
