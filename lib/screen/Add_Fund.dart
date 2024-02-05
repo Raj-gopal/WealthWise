@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
+import 'package:wealthwise/screen/Welcome_first_screen.dart';
 
 class Add_Fund extends StatelessWidget {
   const Add_Fund({super.key});
@@ -97,25 +98,33 @@ class Add_Fund extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(top: 24, left: 24, right: 24 ,bottom: 24),
-        child: Container(
-          height: 72,
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(3, 127, 255, 1),
-            borderRadius: BorderRadius.circular(16)
-          ),
-          child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'ADD FUND',
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 24,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white),
+      bottomNavigationBar: GestureDetector(
+        onTap: (){
+           Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const welcomefirstpage()),
+  );
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(top: 24, left: 24, right: 24 ,bottom: 24),
+          child: Container(
+            height: 72,
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(3, 127, 255, 1),
+              borderRadius: BorderRadius.circular(16)
+            ),
+            child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'ADD FUND',
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 24,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white),
+                  ),
                 ),
-              ),
+          ),
         ),
       ),
     );

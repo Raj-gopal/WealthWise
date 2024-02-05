@@ -87,7 +87,7 @@ class _StockDetailState extends State<StockDetail> {
                         child: BasicData(),
                       ),
                       SizedBox(height: 24),
-                      // Container(height: 292, child: CandlestickGraph()),
+                  //      Container(height: 292, child: CandlestickGraph()),
                       SizedBox(height: 24),
                       tab(),
                       SizedBox(height: 32),
