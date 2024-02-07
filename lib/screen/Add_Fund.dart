@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
-import 'package:wealthwise/screen/Welcome_first_screen.dart';
+import 'package:wealthwise/screen/onboarding_page.dart';
 
 class Add_Fund extends StatelessWidget {
   const Add_Fund({super.key});
@@ -102,7 +102,7 @@ class Add_Fund extends StatelessWidget {
         onTap: (){
            Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => const welcomefirstpage()),
+    MaterialPageRoute(builder: (context) =>  welcomefirstpage(s: Size.infinite,)),
   );
         },
         child: Padding(
