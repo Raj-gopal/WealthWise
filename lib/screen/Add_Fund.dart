@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
-
-
+import 'package:wealthwise/screen/Buy_Stock.dart';
 
 class Add_Fund extends StatelessWidget {
   const Add_Fund({super.key});
@@ -13,9 +12,7 @@ class Add_Fund extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
-        padding: const EdgeInsets.only(
-          top: 48, left: 24, right: 24
-        ),
+        padding: const EdgeInsets.only(top: 48, left: 24, right: 24),
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,8 +74,9 @@ class Add_Fund extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 112,),
-
+              SizedBox(
+                height: 112,
+              ),
               Container(
                 height: 40,
                 decoration: BoxDecoration(
@@ -86,13 +84,15 @@ class Add_Fund extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
-                  child: Text('Amount should be greater than or equal to 100',
-                  style:  TextStyle(
+                  child: Text(
+                    'Amount should be greater than or equal to 100',
+                    style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 12,
                       fontWeight: FontWeight.w900,
                       color: Color.fromRGBO(252, 178, 185, 1),
-                    ),),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -100,31 +100,31 @@ class Add_Fund extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: GestureDetector(
-        onTap: (){
-  //          Navigator.pushReplacement(
-  //   context,
-  //   MaterialPageRoute(builder: (context) => onboarding_Screen()),
-  // );
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => buy_stock()),
+          );
         },
         child: Padding(
-          padding: const EdgeInsets.only(top: 24, left: 24, right: 24 ,bottom: 24),
+          padding:
+              const EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 24),
           child: Container(
             height: 72,
             decoration: BoxDecoration(
-              color: Color.fromRGBO(3, 127, 255, 1),
-              borderRadius: BorderRadius.circular(16)
-            ),
+                color: Color.fromRGBO(3, 127, 255, 1),
+                borderRadius: BorderRadius.circular(16)),
             child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'ADD FUND',
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 24,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white),
-                  ),
-                ),
+              alignment: Alignment.center,
+              child: Text(
+                'ADD FUND',
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white),
+              ),
+            ),
           ),
         ),
       ),
