@@ -1,7 +1,8 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:wealthwise/screen/sign_in_page.dart';
+import 'package:wealthwise/screen/OnBoarding.dart';
+
 
 class splash_screen extends StatefulWidget {
   const splash_screen({super.key});
@@ -16,7 +17,7 @@ class _splash_screenState extends State<splash_screen> {
     return Scaffold(
       body:AnimatedSplashScreen(
       splash: 'assets/image/logo.png',
-      nextScreen: sign_in(),
+      nextScreen: onboarding_Screen(),
       splashTransition: SplashTransition.fadeTransition,
       pageTransitionType: PageTransitionType.fade,
       backgroundColor: Color(0xFF037FFF),

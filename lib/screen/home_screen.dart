@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wealthwise/screen/profile_screen.dart';
 import 'package:wealthwise/section/Explore_section.dart';
 import 'package:wealthwise/widgets/user_data.dart';
 
@@ -21,46 +22,56 @@ class _home_pageState extends State<home_page> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          elevation: 0,
-          forceMaterialTransparency: true,
-          title: Row(
-            children: [
-              Text(
-                'Investments',
-                style: TextStyle(
-                  color: Color(0xFF041727),
-                  fontFamily: 'Montserrat',
-                  fontSize: 32,
-                  fontWeight: FontWeight.w900,
-                ),
+          appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: false,
+        elevation: 0,
+        forceMaterialTransparency: true,
+        title: Row(
+          children: [
+            Text(
+              'Investments',
+              style: TextStyle(
+                color: Color(0xFF041727),
+                fontFamily: 'Montserrat',
+                fontSize: 32,
+                fontWeight: FontWeight.w900,
               ),
-              SizedBox(
-                width: 72,
+            ),
+            SizedBox(
+              width: 72,
+            ),
+            // search icon
+            SizedBox(
+              height: 24,
+              width: 24,
+              child: Image(
+                image: AssetImage('assets/image/search 1.png'),
               ),
-              //search icon
-              SizedBox(
-                height: 24,
-                width: 24,
-                child: Image(
-                  image: AssetImage('assets/image/search 1.png'),
-                ),
-              ),
-              SizedBox(
-                width: 24,
-              ),
-              //profile icon
-              SizedBox(
+            ),
+            SizedBox(
+              width: 24,
+            ),
+            // profile icon
+            GestureDetector(
+               onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const profile_screen()),
+                  );
+                },
+              child: SizedBox(
                 height: 45,
                 width: 45,
                 child: Image(
                   image: AssetImage('assets/image/man 1.png'),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
         body: CustomScrollView(
           slivers: [
             SliverAppBar(

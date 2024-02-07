@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
-import 'package:wealthwise/screen/onboarding_page.dart';
+
+
 
 class Add_Fund extends StatelessWidget {
   const Add_Fund({super.key});
@@ -100,10 +101,10 @@ class Add_Fund extends StatelessWidget {
       ),
       bottomNavigationBar: GestureDetector(
         onTap: (){
-           Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) =>  welcomefirstpage(s: Size.infinite,)),
-  );
+  //          Navigator.pushReplacement(
+  //   context,
+  //   MaterialPageRoute(builder: (context) => onboarding_Screen()),
+  // );
         },
         child: Padding(
           padding: const EdgeInsets.only(top: 24, left: 24, right: 24 ,bottom: 24),
