@@ -120,12 +120,11 @@ class onboarding_Screen extends StatelessWidget {
           ),
         ),
         onDone: () {
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => sign_in()),
-  );
-},
-
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => sign_in()),
+          );
+        },
         skipOrBackFlex: 0,
         nextFlex: 0,
         scrollPhysics: NeverScrollableScrollPhysics(),

@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wealthwise/model/company_name.dart';
 import 'package:wealthwise/screen/Add_Fund.dart';
 import 'package:wealthwise/screen/profile_screen.dart';
 import 'package:wealthwise/section/Overview_section.dart';
-import 'package:wealthwise/widgets/graph.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class StockDetail extends StatefulWidget {
   const StockDetail({Key? key}) : super(key: key);
@@ -53,13 +52,13 @@ class _StockDetailState extends State<StockDetail> {
             ),
             // profile icon
             GestureDetector(
-               onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const profile_screen()),
-                  );
-                },
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const profile_screen()),
+                );
+              },
               child: SizedBox(
                 height: 45,
                 width: 45,
@@ -87,7 +86,7 @@ class _StockDetailState extends State<StockDetail> {
                         child: BasicData(),
                       ),
                       SizedBox(height: 24),
-                  //      Container(height: 292, child: CandlestickGraph()),
+                      //      Container(height: 292, child: CandlestickGraph()),
                       SizedBox(height: 24),
                       tab(),
                       SizedBox(height: 32),
@@ -185,13 +184,27 @@ class _StockDetailState extends State<StockDetail> {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         GestureDetector(
             onTap: () {
-              Navigator.push(context,MaterialPageRoute(builder: (context) =>Add_Fund()));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Center(
+                  child: Text(
+                    'Not available',
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 24,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white),
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                elevation: 5,
+                backgroundColor: Color.fromRGBO(209, 18, 18, 1),
+              ));
             },
             child: Container(
               height: 64,
               width: 185 - 8,
               decoration: BoxDecoration(
-                color: Color.fromRGBO(209, 18, 18, 1),
+                color: Color.fromRGBO(209, 18, 18, .5),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Align(
@@ -209,7 +222,8 @@ class _StockDetailState extends State<StockDetail> {
             )),
         GestureDetector(
             onTap: () {
-               Navigator.push(context,MaterialPageRoute(builder: (context) =>Add_Fund()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Add_Fund()));
             },
             child: Container(
               height: 64,
