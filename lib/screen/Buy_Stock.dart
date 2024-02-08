@@ -142,7 +142,7 @@ class _buy_stockState extends State<buy_stock> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: const EdgeInsets.only(left:8),
+                            padding: const EdgeInsets.only(left: 8),
                             child: Text(
                               '₹2,090.75',
                               style: TextStyle(
@@ -160,15 +160,43 @@ class _buy_stockState extends State<buy_stock> {
                 )
               ],
             ),
-            SizedBox(height: 32,),
-            Text('Type',  style: TextStyle(
+            SizedBox(
+              height: 32,
+            ),
+            Text(
+              'Type',
+              style: TextStyle(
                 fontFamily: 'Montserrat',
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: Color.fromRGBO(4, 23, 39, 1),
-              ),),
-              SizedBox(height: 16,),
-              
+              ),
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            Center(
+              child: Container(
+                width: 160,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(215, 233, 252, 1),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Market',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Color.fromRGBO(3, 127, 255, 1),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
