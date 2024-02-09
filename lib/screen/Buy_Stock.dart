@@ -180,7 +180,7 @@ class _buy_stockState extends State<buy_stock> {
                 width: 160,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(215, 233, 252, 1),
+                  color: Color.fromRGBO(233, 233, 233, 1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Align(
@@ -191,13 +191,42 @@ class _buy_stockState extends State<buy_stock> {
                       fontFamily: 'Montserrat',
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: Color.fromRGBO(3, 127, 255, 1),
+                      color: Color.fromRGBO(166, 166, 233, 1),
                     ),
                   ),
                 ),
               ),
             ),
           ],
+        ),
+      ),
+       bottomNavigationBar: GestureDetector(
+        onTap: () {
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => buy_stock()),
+          // );
+        },
+        child: Padding(
+          padding:
+              const EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 24),
+          child: Container(
+            height: 72,
+            decoration: BoxDecoration(
+                color: Color.fromRGBO(3, 127, 255, 1),
+                borderRadius: BorderRadius.circular(16)),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                'BUY',
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white),
+              ),
+            ),
+          ),
         ),
       ),
     );

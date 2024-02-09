@@ -1,15 +1,17 @@
 import 'dart:convert';
-import 'package:flutter/gestures.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wealthwise/model/company_name.dart';
 import 'package:wealthwise/screen/Add_Fund.dart';
 import 'package:wealthwise/screen/profile_screen.dart';
 import 'package:wealthwise/section/Overview_section.dart';
-import 'package:wealthwise/widgets/graph.dart';
+
 
 class StockDetail extends StatefulWidget {
-  const StockDetail({Key? key}) : super(key: key);
+   String companyName;
+   StockDetail({required this.companyName});
+ // const StockDetail({Key? key, required String companyName}) : super(key: key);
 
   @override
   _StockDetailState createState() => _StockDetailState();
@@ -17,6 +19,14 @@ class StockDetail extends StatefulWidget {
 
 class _StockDetailState extends State<StockDetail> {
   var currentindex = 0;
+   late String companyName;
+
+   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    companyName=widget.companyName;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +63,13 @@ class _StockDetailState extends State<StockDetail> {
             ),
             // profile icon
             GestureDetector(
-               onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const profile_screen()),
-                  );
-                },
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const profile_screen()),
+                );
+              },
               child: SizedBox(
                 height: 45,
                 width: 45,
@@ -87,7 +97,7 @@ class _StockDetailState extends State<StockDetail> {
                         child: BasicData(),
                       ),
                       SizedBox(height: 24),
-                  //      Container(height: 292, child: CandlestickGraph()),
+                      //      Container(height: 292, child: CandlestickGraph()),
                       SizedBox(height: 24),
                       tab(),
                       SizedBox(height: 32),
@@ -185,13 +195,27 @@ class _StockDetailState extends State<StockDetail> {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         GestureDetector(
             onTap: () {
-              Navigator.push(context,MaterialPageRoute(builder: (context) =>Add_Fund()));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Center(
+                  child: Text(
+                    'Not available',
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 24,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white),
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                elevation: 5,
+                backgroundColor: Color.fromRGBO(209, 18, 18, 1),
+              ));
             },
             child: Container(
               height: 64,
               width: 185 - 8,
               decoration: BoxDecoration(
-                color: Color.fromRGBO(209, 18, 18, 1),
+                color: Color.fromRGBO(209, 18, 18, .5),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Align(
@@ -209,7 +233,8 @@ class _StockDetailState extends State<StockDetail> {
             )),
         GestureDetector(
             onTap: () {
-               Navigator.push(context,MaterialPageRoute(builder: (context) =>Add_Fund()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Add_Fund()));
             },
             child: Container(
               height: 64,
@@ -437,13 +462,18 @@ class _StockDetailState extends State<StockDetail> {
       ),
     );
   }
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('companyName', companyName));
+  }
 }
 
 class BasicData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<CompanyNameStockApi>(
-      future: getCompanyName(),
+ future: getname(),
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.data == null) {
           return Container(
@@ -459,7 +489,7 @@ class BasicData extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  snapshot.data!.results[0].t.toString(),
+              snapshot.data.$companyName.t.toString(),
                   style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 24,
@@ -551,17 +581,19 @@ class BasicData extends StatelessWidget {
   }
 }
 
-Future<CompanyNameStockApi> getCompanyName() async {
-  final response = await http.get(Uri.parse(
-      'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-11?adjusted=true&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
-  var data = jsonDecode(response.body.toString());
+  Future<CompanyNameStockApi> getname() async {
+    final response = await http.get(Uri.parse(
+        'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-11?adjusted=true&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
+    var data = jsonDecode(response.body.toString());
 
-  if (response.statusCode == 200) {
-    return CompanyNameStockApi.fromJson(data);
-  } else {
-    throw Exception('Failed to load company name');
+    if (response.statusCode == 200) {
+      return CompanyNameStockApi.fromJson(data);
+    } else {
+      return CompanyNameStockApi.fromJson(data);
+    }
   }
-}
+
+
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar tabBar;

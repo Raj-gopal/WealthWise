@@ -50,6 +50,7 @@ dependencies:
   auto_size_text_field: ^2.2.2
   introduction_screen: ^3.1.12
   text_scroll: ^0.2.0
+  awesome_snackbar_content: ^0.1.3
 
 
 
