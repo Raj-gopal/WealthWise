@@ -1,17 +1,14 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wealthwise/model/company_name.dart';
 import 'package:wealthwise/screen/Add_Fund.dart';
 import 'package:wealthwise/screen/profile_screen.dart';
 import 'package:wealthwise/section/Overview_section.dart';
-
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class StockDetail extends StatefulWidget {
-   String companyName;
-   StockDetail({required this.companyName});
- // const StockDetail({Key? key, required String companyName}) : super(key: key);
+  const StockDetail({Key? key}) : super(key: key);
 
   @override
   _StockDetailState createState() => _StockDetailState();
@@ -19,14 +16,6 @@ class StockDetail extends StatefulWidget {
 
 class _StockDetailState extends State<StockDetail> {
   var currentindex = 0;
-   late String companyName;
-
-   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    companyName=widget.companyName;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -462,18 +451,13 @@ class _StockDetailState extends State<StockDetail> {
       ),
     );
   }
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(StringProperty('companyName', companyName));
-  }
 }
 
 class BasicData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<CompanyNameStockApi>(
- future: getname(),
+      future: getCompanyName(),
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.data == null) {
           return Container(
@@ -489,7 +473,7 @@ class BasicData extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-              snapshot.data.$companyName.t.toString(),
+                  snapshot.data!.results[0].t.toString(),
                   style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 24,
@@ -581,19 +565,17 @@ class BasicData extends StatelessWidget {
   }
 }
 
-  Future<CompanyNameStockApi> getname() async {
-    final response = await http.get(Uri.parse(
-        'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-11?adjusted=true&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
-    var data = jsonDecode(response.body.toString());
+Future<CompanyNameStockApi> getCompanyName() async {
+  final response = await http.get(Uri.parse(
+      'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-11?adjusted=true&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
+  var data = jsonDecode(response.body.toString());
 
-    if (response.statusCode == 200) {
-      return CompanyNameStockApi.fromJson(data);
-    } else {
-      return CompanyNameStockApi.fromJson(data);
-    }
+  if (response.statusCode == 200) {
+    return CompanyNameStockApi.fromJson(data);
+  } else {
+    throw Exception('Failed to load company name');
   }
-
-
+}
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar tabBar;
