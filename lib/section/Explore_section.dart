@@ -4,9 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:wealthwise/model/company_name.dart';
 import 'package:wealthwise/screen/Stock_screen.dart';
-import 'package:wealthwise/widgets/graph.dart';
+
 
 class Explore_section extends StatefulWidget {
+  
   const Explore_section({super.key});
 
   @override
@@ -14,6 +15,9 @@ class Explore_section extends StatefulWidget {
 }
 
 class _Explore_sectionState extends State<Explore_section> {
+
+  
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,6 +26,7 @@ class _Explore_sectionState extends State<Explore_section> {
           children: [
             Expanded(
               child: FutureBuilder(
+                
                   future: getname(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
@@ -34,7 +39,9 @@ class _Explore_sectionState extends State<Explore_section> {
                         ),
                       );
                     } else {
+                    
                       return ListView.builder(
+                        
                           itemCount: snapshot.data?.results.length,
                           itemBuilder: (context, index) {
                             return Container(
@@ -46,7 +53,14 @@ class _Explore_sectionState extends State<Explore_section> {
                                         context,
                                         CupertinoPageRoute(
                                             builder: (context) =>
-                                                const StockDetail()),
+                                                 StockDetail(
+                                                  name : snapshot.data!.results[index].t.toString(),
+                                                  price : snapshot.data!.results[index].vw!.toStringAsFixed(2),
+                                                  ret : ((snapshot.data!.results[index].c) - (snapshot.data!.results[index].o) >=0
+                                                          ? '+':'') + ((snapshot.data!.results[index].c) - (snapshot.data!.results[index].o)) .toStringAsFixed(2),
+                                                             
+                                                  
+                                                )),
                                       );
                                     },
                                     child: Container(
@@ -97,8 +111,8 @@ class _Explore_sectionState extends State<Explore_section> {
                                                     ),
                                                     TextSpan(
                                                       text: snapshot.data!
-                                                          .results[index].vw
-                                                          .toString(),
+                                                          .results[index].vw!
+                                                          .toStringAsFixed(2),
                                                       style: TextStyle(
                                                           fontFamily:
                                                               'Montserrat',
@@ -117,17 +131,7 @@ class _Explore_sectionState extends State<Explore_section> {
                                                 text: TextSpan(
                                                   children: <TextSpan>[
                                                     TextSpan(
-                                                      text: snapshot
-                                                                      .data!
-                                                                      .results[
-                                                                          index]
-                                                                      .c -
-                                                                  snapshot
-                                                                      .data!
-                                                                      .results[
-                                                                          index]
-                                                                      .o >=
-                                                              0
+                                                      text: snapshot.data!.results[index].c - snapshot.data!.results[index].o >=0
                                                           ? '+'
                                                           : '',
                                                       style: TextStyle(
@@ -136,17 +140,7 @@ class _Explore_sectionState extends State<Explore_section> {
                                                           fontSize: 16,
                                                           fontWeight:
                                                               FontWeight.w700,
-                                                          color: snapshot
-                                                                          .data!
-                                                                          .results[
-                                                                              index]
-                                                                          .c -
-                                                                      snapshot
-                                                                          .data!
-                                                                          .results[
-                                                                              index]
-                                                                          .o >=
-                                                                  0
+                                                          color: snapshot.data!.results[index].c - snapshot.data!.results[index].o >=0
                                                               ? Color.fromRGBO(
                                                                   18,
                                                                   209,

@@ -1,14 +1,18 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:wealthwise/model/company_name.dart';
 import 'package:wealthwise/screen/Add_Fund.dart';
 import 'package:wealthwise/screen/profile_screen.dart';
 import 'package:wealthwise/section/Overview_section.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class StockDetail extends StatefulWidget {
-  const StockDetail({Key? key}) : super(key: key);
+  const StockDetail({Key? key, required this.name, required this.price, required this.ret}) : super(key: key);
+
+  final String name;
+  final String price;
+  final String ret;
 
   @override
   _StockDetailState createState() => _StockDetailState();
@@ -56,7 +60,8 @@ class _StockDetailState extends State<StockDetail> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const profile_screen()),
+                    builder: (context) => const profile_screen(),
+                  ),
                 );
               },
               child: SizedBox(
@@ -83,7 +88,11 @@ class _StockDetailState extends State<StockDetail> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(2.0),
-                        child: BasicData(),
+                        child: BasicData(
+                          name: widget.name,
+                          price: widget.price,
+                          ret: widget.ret,
+                        ),
                       ),
                       SizedBox(height: 24),
                       //      Container(height: 292, child: CandlestickGraph()),
@@ -183,67 +192,74 @@ class _StockDetailState extends State<StockDetail> {
       color: Colors.white,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         GestureDetector(
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Center(
-                  child: Text(
-                    'Not available',
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 24,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white),
+          onTap: () {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Center(
+                child: Text(
+                  'Not available',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
                   ),
                 ),
-                behavior: SnackBarBehavior.floating,
-                elevation: 5,
-                backgroundColor: Color.fromRGBO(209, 18, 18, 1),
-              ));
-            },
-            child: Container(
-              height: 64,
-              width: 185 - 8,
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(209, 18, 18, .5),
-                borderRadius: BorderRadius.circular(16),
               ),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'SELL',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 24,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white),
+              behavior: SnackBarBehavior.floating,
+              elevation: 5,
+              backgroundColor: Color.fromRGBO(209, 18, 18, 1),
+            ));
+          },
+          child: Container(
+            height: 64,
+            width: 185 - 8,
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(209, 18, 18, .5),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                'SELL',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
                 ),
               ),
-            )),
+            ),
+          ),
+        ),
         GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Add_Fund()));
-            },
-            child: Container(
-              height: 64,
-              width: 185 - 8,
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(3, 127, 255, 1),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'BUY',
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 24,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Add_Fund()),
+            );
+          },
+          child: Container(
+            height: 64,
+            width: 185 - 8,
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(3, 127, 255, 1),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                'BUY',
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
                 ),
               ),
-            )),
+            ),
+          ),
+        ),
       ]),
     );
   }
@@ -454,128 +470,62 @@ class _StockDetailState extends State<StockDetail> {
 }
 
 class BasicData extends StatelessWidget {
+  final String name;
+  final String price;
+  final String ret;
+
+  BasicData({required this.name, required this.price, required this.ret});
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<CompanyNameStockApi>(
-      future: getCompanyName(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData || snapshot.data == null) {
-          return Container(
-            height: 80,
-            width: 80,
-            child: CircularProgressIndicator(
-              color: Color.fromRGBO(3, 127, 255, 1),
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '$name',
+            style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: Color.fromRGBO(4, 23, 39, 1),
             ),
-          );
-        } else {
-          return Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  snapshot.data!.results[0].t.toString(),
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    color: Color.fromRGBO(4, 23, 39, 1),
-                  ),
-                ),
-                Text(
-                  '＄' + snapshot.data!.results[0].vw.toString(),
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    color: Color.fromRGBO(4, 23, 39, 1),
-                  ),
-                ),
-                RichText(
-                  maxLines: 1,
-                  textAlign: TextAlign.right,
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: snapshot.data!.results[0].c -
-                                    snapshot.data!.results[0].o >=
-                                0
-                            ? '+'
-                            : '',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: snapshot.data!.results[0].c -
-                                      snapshot.data!.results[0].o >=
-                                  0
-                              ? Color.fromRGBO(18, 209, 142, 1)
-                              : Color.fromRGBO(209, 18, 18, 1),
-                        ),
-                      ),
-                      TextSpan(
-                        text: (snapshot.data!.results[0].c -
-                                snapshot.data!.results[0].o)
-                            .toStringAsFixed(2),
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: snapshot.data!.results[0].c -
-                                      snapshot.data!.results[0].o >=
-                                  0
-                              ? Color.fromRGBO(18, 209, 142, 1)
-                              : Color.fromRGBO(209, 18, 18, 1),
-                        ),
-                      ),
-                      TextSpan(
-                        text: '%',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: snapshot.data!.results[0].c -
-                                      snapshot.data!.results[0].o >=
-                                  0
-                              ? Color.fromRGBO(18, 209, 142, 1)
-                              : Color.fromRGBO(209, 18, 18, 1),
-                        ),
-                      ),
-                      TextSpan(
-                        text: ' (1D)',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: snapshot.data!.results[0].c -
-                                      snapshot.data!.results[0].o >=
-                                  0
-                              ? Color.fromRGBO(18, 209, 142, 1)
-                              : Color.fromRGBO(209, 18, 18, 1),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+          ),
+          Text(
+            '＄' + '$price',
+            style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: Color.fromRGBO(4, 23, 39, 1),
             ),
-          );
-        }
-      },
+          ),
+         Text(
+            '$ret' + '%' + ' (1D)',
+            style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: double.parse(ret.toString()) >= 0 ? Color.fromRGBO(18,209,142,1): Color.fromRGBO(209,18,18,1) ,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
-Future<CompanyNameStockApi> getCompanyName() async {
-  final response = await http.get(Uri.parse(
-      'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-11?adjusted=true&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
-  var data = jsonDecode(response.body.toString());
+// Future<CompanyNameStockApi> getCompanyName() async {
+//   final response = await http.get(Uri.parse(
+//       'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-11?adjusted=true&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
+//   var data = jsonDecode(response.body.toString());
 
-  if (response.statusCode == 200) {
-    return CompanyNameStockApi.fromJson(data);
-  } else {
-    throw Exception('Failed to load company name');
-  }
-}
+//   if (response.statusCode == 200) {
+//     return CompanyNameStockApi.fromJson(data);
+//   } else {
+//     throw Exception('Failed to load company name');
+//   }
+// }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar tabBar;
