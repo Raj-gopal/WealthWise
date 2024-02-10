@@ -55,8 +55,9 @@ class _Explore_sectionState extends State<Explore_section> {
                                             builder: (context) =>
                                                  StockDetail(
                                                   name : snapshot.data!.results[index].t.toString(),
-                                                  price : snapshot.data!.results[index].vw.toString(),
-                                                  ret :snapshot.data!.results[index].c .toString()
+                                                  price : snapshot.data!.results[index].vw!.toStringAsFixed(2),
+                                                  ret : ((snapshot.data!.results[index].c) - (snapshot.data!.results[index].o) >=0
+                                                          ? '+':'') + ((snapshot.data!.results[index].c) - (snapshot.data!.results[index].o)) .toStringAsFixed(2),
                                                              
                                                   
                                                 )),
@@ -110,8 +111,8 @@ class _Explore_sectionState extends State<Explore_section> {
                                                     ),
                                                     TextSpan(
                                                       text: snapshot.data!
-                                                          .results[index].vw
-                                                          .toString(),
+                                                          .results[index].vw!
+                                                          .toStringAsFixed(2),
                                                       style: TextStyle(
                                                           fontFamily:
                                                               'Montserrat',
@@ -130,17 +131,7 @@ class _Explore_sectionState extends State<Explore_section> {
                                                 text: TextSpan(
                                                   children: <TextSpan>[
                                                     TextSpan(
-                                                      text: snapshot
-                                                                      .data!
-                                                                      .results[
-                                                                          index]
-                                                                      .c -
-                                                                  snapshot
-                                                                      .data!
-                                                                      .results[
-                                                                          index]
-                                                                      .o >=
-                                                              0
+                                                      text: snapshot.data!.results[index].c - snapshot.data!.results[index].o >=0
                                                           ? '+'
                                                           : '',
                                                       style: TextStyle(
@@ -149,17 +140,7 @@ class _Explore_sectionState extends State<Explore_section> {
                                                           fontSize: 16,
                                                           fontWeight:
                                                               FontWeight.w700,
-                                                          color: snapshot
-                                                                          .data!
-                                                                          .results[
-                                                                              index]
-                                                                          .c -
-                                                                      snapshot
-                                                                          .data!
-                                                                          .results[
-                                                                              index]
-                                                                          .o >=
-                                                                  0
+                                                          color: snapshot.data!.results[index].c - snapshot.data!.results[index].o >=0
                                                               ? Color.fromRGBO(
                                                                   18,
                                                                   209,

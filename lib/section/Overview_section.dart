@@ -291,12 +291,19 @@ class _OverviewSectionState extends State<OverviewSection> {
                                   padding: EdgeInsets.only(top: 8),
                                   child: GestureDetector(
                                       onTap: () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   CupertinoPageRoute(
-                                        //       builder: (context) =>
-                                        //           const StockDetail(name : snapshot.data!.results[index].t.toString(),)),
-                                        // );
+                                        Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                            builder: (context) =>
+                                                 StockDetail(
+                                                  name : snapshot.data!.results[index].t.toString(),
+                                                  price : snapshot.data!.results[index].vw!.toStringAsFixed(2),
+                                                  ret : ((snapshot.data!.results[index].c) - (snapshot.data!.results[index].o) >=0
+                                                          ? '+':'') + ((snapshot.data!.results[index].c) - (snapshot.data!.results[index].o)) .toStringAsFixed(2),
+                                                             
+                                                  
+                                                )),
+                                      );
                                       },
                                       child: Container(
                                           // padding: EdgeInsets.only(left: 8),

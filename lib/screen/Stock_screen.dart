@@ -500,44 +500,13 @@ class BasicData extends StatelessWidget {
               color: Color.fromRGBO(4, 23, 39, 1),
             ),
           ),
-          RichText(
-            maxLines: 1,
-            textAlign: TextAlign.right,
-            text: TextSpan(
-              children: <TextSpan>[
-                TextSpan(
-                  text: '',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                TextSpan(
-                  text: '',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                TextSpan(
-                  text: '%',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                TextSpan(
-                  text: ' (1D)',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
+         Text(
+            '$ret' + '%' + ' (1D)',
+            style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: double.parse(ret.toString()) >= 0 ? Color.fromRGBO(18,209,142,1): Color.fromRGBO(209,18,18,1) ,
             ),
           ),
         ],
