@@ -291,12 +291,12 @@ class _OverviewSectionState extends State<OverviewSection> {
                                   padding: EdgeInsets.only(top: 8),
                                   child: GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          CupertinoPageRoute(
-                                              builder: (context) =>
-                                                  const StockDetail()),
-                                        );
+                                        // Navigator.push(
+                                        //   context,
+                                        //   CupertinoPageRoute(
+                                        //       builder: (context) =>
+                                        //           const StockDetail(name : snapshot.data!.results[index].t.toString(),)),
+                                        // );
                                       },
                                       child: Container(
                                           // padding: EdgeInsets.only(left: 8),

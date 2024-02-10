@@ -4,9 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:wealthwise/model/company_name.dart';
 import 'package:wealthwise/screen/Stock_screen.dart';
-import 'package:wealthwise/widgets/graph.dart';
+
 
 class Explore_section extends StatefulWidget {
+  
   const Explore_section({super.key});
 
   @override
@@ -14,6 +15,9 @@ class Explore_section extends StatefulWidget {
 }
 
 class _Explore_sectionState extends State<Explore_section> {
+
+  
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,6 +26,7 @@ class _Explore_sectionState extends State<Explore_section> {
           children: [
             Expanded(
               child: FutureBuilder(
+                
                   future: getname(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
@@ -34,7 +39,9 @@ class _Explore_sectionState extends State<Explore_section> {
                         ),
                       );
                     } else {
+                    
                       return ListView.builder(
+                        
                           itemCount: snapshot.data?.results.length,
                           itemBuilder: (context, index) {
                             return Container(
@@ -46,7 +53,13 @@ class _Explore_sectionState extends State<Explore_section> {
                                         context,
                                         CupertinoPageRoute(
                                             builder: (context) =>
-                                                const StockDetail()),
+                                                 StockDetail(
+                                                  name : snapshot.data!.results[index].t.toString(),
+                                                  price : snapshot.data!.results[index].vw.toString(),
+                                                  ret :snapshot.data!.results[index].c .toString()
+                                                             
+                                                  
+                                                )),
                                       );
                                     },
                                     child: Container(
