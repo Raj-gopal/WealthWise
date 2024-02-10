@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wealthwise/screen/Add_Fund.dart';
 
 class profile_screen extends StatefulWidget {
   const profile_screen({super.key});
@@ -193,23 +194,28 @@ class Design {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Container(
-                height: 48,
-                width: 158,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
-                  color: Color.fromRGBO(215, 233, 252, 1),
-                ),
-                child: Center(
-                    child: Text(
-                  buttontext,
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: Color.fromRGBO(3, 127, 255, 1),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context,MaterialPageRoute(builder: (context) =>Add_Fund()));
+                },
+                child: Container(
+                  height: 48,
+                  width: 158,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    color: Color.fromRGBO(215, 233, 252, 1),
                   ),
-                )),
+                  child: Center(
+                      child: Text(
+                    buttontext,
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: Color.fromRGBO(3, 127, 255, 1),
+                    ),
+                  )),
+                ),
               ),
             )
           ],
