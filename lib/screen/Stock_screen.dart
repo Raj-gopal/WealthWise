@@ -1,14 +1,12 @@
-// ignore_for_file: must_be_immutable
-
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:wealthwise/screen/Add_Fund.dart';
 import 'package:wealthwise/screen/profile_screen.dart';
 import 'package:wealthwise/section/Overview_section.dart';
 
 class StockDetail extends StatefulWidget {
-  const StockDetail({Key? key, required this.name, required this.price, required this.ret}) : super(key: key);
+  const StockDetail(
+      {Key? key, required this.name, required this.price, required this.ret})
+      : super(key: key);
 
   final String name;
   final String price;
@@ -174,7 +172,7 @@ class _StockDetailState extends State<StockDetail> {
             },
             body: TabBarView(
               children: [
-                OverviewSection(),
+                OverviewSection(name: widget.name),
                 Text('Rate'),
                 Text('News'),
               ],
@@ -500,13 +498,15 @@ class BasicData extends StatelessWidget {
               color: Color.fromRGBO(4, 23, 39, 1),
             ),
           ),
-         Text(
+          Text(
             '$ret' + '%' + ' (1D)',
             style: TextStyle(
               fontFamily: 'Montserrat',
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: double.parse(ret.toString()) >= 0 ? Color.fromRGBO(18,209,142,1): Color.fromRGBO(209,18,18,1) ,
+              color: double.parse(ret.toString()) >= 0
+                  ? Color.fromRGBO(18, 209, 142, 1)
+                  : Color.fromRGBO(209, 18, 18, 1),
             ),
           ),
         ],

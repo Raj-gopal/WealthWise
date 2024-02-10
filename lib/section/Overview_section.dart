@@ -11,14 +11,12 @@ class CompanyModel {
   final String description;
   final String ticker;
   final String address;
-  // Add more fields as needed
 
   CompanyModel({
     required this.name,
     required this.description,
     required this.ticker,
     required this.address,
-    // Add more fields as needed
   });
 
   factory CompanyModel.fromJson(Map<String, dynamic> json) {
@@ -27,7 +25,6 @@ class CompanyModel {
       description: json['results']['description'],
       ticker: json['results']['ticker'],
       address: "${json['results']['address']['city']}, ${json['results']['address']['state']}",
-      // Initialize other fields
     );
   }
 }
@@ -80,7 +77,9 @@ class ItemWidget extends StatelessWidget {
 }
 
 class OverviewSection extends StatefulWidget {
-  const OverviewSection({Key? key}) : super(key: key);
+  final String name;
+
+  const OverviewSection({Key? key, required this.name}) : super(key: key);
 
   @override
   State<OverviewSection> createState() => _OverviewSectionState();
@@ -88,11 +87,13 @@ class OverviewSection extends StatefulWidget {
 
 class _OverviewSectionState extends State<OverviewSection> {
   late Future<FinancialData> financialData;
+  late String companyName;
 
   @override
   void initState() {
     super.initState();
-    financialData = getFinancial();
+    companyName = widget.name;
+    financialData = getFinancial(companyName);
   }
 
   @override
@@ -131,14 +132,11 @@ class _OverviewSectionState extends State<OverviewSection> {
                   child: Text('No data available'),
                 );
               } else {
-                // Assuming other_current_assets
                 double otherCurrentAssetsValue =
                     snapshot.data!.balanceSheet['assets']['value'] * 0.00000001;
                 String formattedValue =
                     otherCurrentAssetsValue.toStringAsFixed(2);
-
                
-
                 // Assuming equitytonci
                 double equitytonci = snapshot.data!.balanceSheet[
                             'equity_attributable_to_noncontrolling_interest']
@@ -146,70 +144,70 @@ class _OverviewSectionState extends State<OverviewSection> {
                     0.00000001;
                 String equitytonciValue = equitytonci.toStringAsFixed(2);
 
-                // Assuming inventory
-                double inventory = snapshot.data!.balanceSheet['inventory']
-                        ['value'] *
-                    0.00000001;
-                String inventoryValue = inventory.toStringAsFixed(2);
+                //  // Assuming inventory
+                // double inventory = snapshot.data!.balanceSheet['inventory']
+                //         ['value'] *
+                //     0.00000001;
+                // String inventoryValue = inventory.toStringAsFixed(2);
 
-                // Assuming current_assets
+               // Assuming current_assets
                 double current_assets =
                     snapshot.data!.balanceSheet['current_assets']['value'] *
                         0.00000001;
                 String current_assetsValue = current_assets.toStringAsFixed(2);
 
-                // Assuming current_assets
-                double long_term_debt =
-                    snapshot.data!.balanceSheet['long_term_debt']['value'] *
-                        0.00000001;
-                String long_term_debtValue = long_term_debt.toStringAsFixed(2);
-
-                // Assuming liabilities_and_equity
+                //  // Assuming current_assets
+                // double long_term_debt =
+                //     snapshot.data!.balanceSheet['long_term_debt']['value'] *
+                //         0.00000001;
+                // String long_term_debtValue = long_term_debt.toStringAsFixed(2);
+  // Assuming liabilities_and_equity
                 double liabilities_and_equity = snapshot
                         .data!.balanceSheet['liabilities_and_equity']['value'] *
                     0.00000001;
                 String liabilities_and_equityValue =
                     liabilities_and_equity.toStringAsFixed(2);
 
-                // Assuming fixed_assets
+                    // Assuming fixed_assets
                 double fixed_assets =
                     snapshot.data!.balanceSheet['fixed_assets']['value'] *
                         0.00000001;
                 String fixed_assetsValue = fixed_assets.toStringAsFixed(2);
 
+
                 return Column(
                   children: [
-                    // Assuming other_current_assets
                     ItemWidget(
                       label: 'Assets',
                       value: formattedValue + ' B',
                     ),
-                    // Assuming Equity
+                       // Assuming Equity
                     ItemWidget(
                       label: 'Equity to NCI',
                       value: equitytonciValue + ' B',
                     ),
-                    // Assuming other_current_assets
-                    ItemWidget(
-                      label: 'Inventory',
-                      value: inventoryValue + ' B',
-                    ),
-                    // Assuming Equity
+                     // Assuming other_current_assets
+                    // ItemWidget(
+                    //   label: 'Inventory',
+                    //   value: inventoryValue + ' B',
+                    // ),
+
+                      // Assuming Equity
                     ItemWidget(
                       label: 'Current Assets',
                       value: current_assetsValue + ' B',
                     ),
-                    // Assuming other_current_assets
-                    ItemWidget(
-                      label: 'Long Term Debt',
-                      value: long_term_debtValue + ' B',
-                    ),
-                    // Assuming Equity
+                     // Assuming other_current_assets
+                    // ItemWidget(
+                    //   label: 'Long Term Debt',
+                    //   value: long_term_debtValue + ' B',
+                    // ),
+                      // Assuming Equity
                     ItemWidget(
                       label: 'Liabilities and Equity',
                       value: liabilities_and_equityValue + ' B',
                     ),
-                    // Assuming other_current_assets
+                     // Assuming other_current_assets
                     ItemWidget(
                       label: 'Fixed Assets',
                       value: fixed_assetsValue + ' B',
@@ -230,7 +228,7 @@ class _OverviewSectionState extends State<OverviewSection> {
           ),
           SizedBox(height: 8),
           FutureBuilder(
-              future: getAboutCompany(),
+              future: getAboutCompany(widget.name),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -256,7 +254,7 @@ class _OverviewSectionState extends State<OverviewSection> {
                   );
                 }
               }),
-                SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(
             'More Stocks',
             style: TextStyle(
@@ -268,231 +266,168 @@ class _OverviewSectionState extends State<OverviewSection> {
           SizedBox(height: 8),
           Expanded(
             child: FutureBuilder(
-                    future: getname(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Container(
-                          alignment: Alignment.center,
-                          height: 64,
-                          width: 64,
-                          child: CircularProgressIndicator(
-                            color: Color.fromRGBO(3, 127, 255, 1),
-                          ),
-                        );
-                      } else {
-                        return ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          primary: false,
-                            itemCount: 3,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                  height: 72,
-                                  padding: EdgeInsets.only(top: 8),
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                            builder: (context) =>
-                                                 StockDetail(
-                                                  name : snapshot.data!.results[index].t.toString(),
-                                                  price : snapshot.data!.results[index].vw!.toStringAsFixed(2),
-                                                  ret : ((snapshot.data!.results[index].c) - (snapshot.data!.results[index].o) >=0
-                                                          ? '+':'') + ((snapshot.data!.results[index].c) - (snapshot.data!.results[index].o)) .toStringAsFixed(2),
-                                                             
-                                                  
-                                                )),
-                                      );
-                                      },
-                                      child: Container(
-                                          // padding: EdgeInsets.only(left: 8),
-                                          child: Row(children: [
-                                        Container(
-                                          width: 64,
-                                          child: Text(
-                                            snapshot.data!.results[index].t
-                                                .toString(),
-                                            maxLines: 1,
+              future: getname(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Container(
+                    alignment: Alignment.center,
+                    height: 64,
+                    width: 64,
+                    child: CircularProgressIndicator(
+                      color: Color.fromRGBO(3, 127, 255, 1),
+                    ),
+                  );
+                } else {
+                  return ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: 3,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        height: 72,
+                        padding: EdgeInsets.only(top: 8),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => StockDetail(
+                                  name: snapshot.data!.results[index].t.toString(),
+                                  price: snapshot.data!.results[index].vw!.toStringAsFixed(2),
+                                  ret: ((snapshot.data!.results[index].c) - (snapshot.data!.results[index].o) >= 0
+                                      ? '+'
+                                      : '') +
+                                      ((snapshot.data!.results[index].c) - (snapshot.data!.results[index].o)).toStringAsFixed(2),
+                                ),
+                              ),
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 64,
+                                child: Text(
+                                  snapshot.data!.results[index].t.toString(),
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color.fromRGBO(4, 23, 39, 1),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 40),
+                              SizedBox(width: 136),
+                              Container(
+                                width: 104,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    RichText(
+                                      maxLines: 1,
+                                      textAlign: TextAlign.right,
+                                      text: TextSpan(
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: "＄",
                                             style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w700,
-                                                color:
-                                                    Color.fromRGBO(4, 23, 39, 1)),
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color.fromRGBO(4, 23, 39, 1),
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: 40,
-                                        ),
-                                        // graph_section(),
-                                        SizedBox(
-                                          width: 136,
-                                        ),
-                                        Container(
-                                          width: 104,
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                RichText(
-                                                  maxLines: 1,
-                                                  textAlign: TextAlign.right,
-                                                  text: TextSpan(
-                                                    children: <TextSpan>[
-                                                      TextSpan(
-                                                        text: "＄",
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Montserrat',
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            color: Color.fromRGBO(
-                                                                4, 23, 39, 1)),
-                                                      ),
-                                                      TextSpan(
-                                                        text: snapshot.data!
-                                                            .results[index].vw
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Montserrat',
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            color: Color.fromRGBO(
-                                                                4, 23, 39, 1)),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                RichText(
-                                                  maxLines: 1,
-                                                  textAlign: TextAlign.right,
-                                                  text: TextSpan(
-                                                    children: <TextSpan>[
-                                                      TextSpan(
-                                                        text: snapshot
-                                                                        .data!
-                                                                        .results[
-                                                                            index]
-                                                                        .c -
-                                                                    snapshot
-                                                                        .data!
-                                                                        .results[
-                                                                            index]
-                                                                        .o >=
-                                                                0
-                                                            ? '+'
-                                                            : '',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Montserrat',
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            color: snapshot
-                                                                            .data!
-                                                                            .results[
-                                                                                index]
-                                                                            .c -
-                                                                        snapshot
-                                                                            .data!
-                                                                            .results[
-                                                                                index]
-                                                                            .o >=
-                                                                    0
-                                                                ? Color.fromRGBO(
-                                                                    18,
-                                                                    209,
-                                                                    142,
-                                                                    1)
-                                                                : Color.fromRGBO(
-                                                                    209,
-                                                                    18,
-                                                                    18,
-                                                                    1)),
-                                                      ),
-                                                      TextSpan(
-                                                        text: (snapshot
-                                                                    .data!
-                                                                    .results[
-                                                                        index]
-                                                                    .c -
-                                                                snapshot
-                                                                    .data!
-                                                                    .results[
-                                                                        index]
-                                                                    .o)
-                                                            .toStringAsFixed(2),
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Montserrat',
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            color: snapshot
-                                                                            .data!
-                                                                            .results[
-                                                                                index]
-                                                                            .c -
-                                                                        snapshot
-                                                                            .data!
-                                                                            .results[
-                                                                                index]
-                                                                            .o >=
-                                                                    0
-                                                                ? Color.fromRGBO(
-                                                                    18,
-                                                                    209,
-                                                                    142,
-                                                                    1)
-                                                                : Color.fromRGBO(
-                                                                    209,
-                                                                    18,
-                                                                    18,
-                                                                    1)),
-                                                      ),
-                                                      TextSpan(
-                                                        text: '%',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Montserrat',
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            color: snapshot
-                                                                            .data!
-                                                                            .results[
-                                                                                index]
-                                                                            .c -
-                                                                        snapshot
-                                                                            .data!
-                                                                            .results[
-                                                                                index]
-                                                                            .o >=
-                                                                    0
-                                                                ? Color.fromRGBO(
-                                                                    18,
-                                                                    209,
-                                                                    142,
-                                                                    1)
-                                                                : Color.fromRGBO(
-                                                                    209,
-                                                                    18,
-                                                                    18,
-                                                                    1)),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ]),
-                                        )
-                                      ]))));
-                            });
-                      }
-                    }),
+                                          TextSpan(
+                                            text: snapshot.data!
+                                                .results[index].vw
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color.fromRGBO(4, 23, 39, 1),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    RichText(
+                                      maxLines: 1,
+                                      textAlign: TextAlign.right,
+                                      text: TextSpan(
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: snapshot.data!
+                                                .results[index].c -
+                                                snapshot.data!
+                                                    .results[index].o >=
+                                                0
+                                                ? '+'
+                                                : '',
+                                            style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700,
+                                              color: snapshot.data!
+                                                  .results[index].c -
+                                                  snapshot.data!
+                                                      .results[index].o >=
+                                                  0
+                                                  ? Color.fromRGBO(18, 209, 142, 1)
+                                                  : Color.fromRGBO(209, 18, 18, 1),
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: (snapshot.data!
+                                                .results[index].c -
+                                                snapshot.data!
+                                                    .results[index].o)
+                                                .toStringAsFixed(2),
+                                            style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700,
+                                              color: snapshot.data!
+                                                  .results[index].c -
+                                                  snapshot.data!
+                                                      .results[index].o >=
+                                                  0
+                                                  ? Color.fromRGBO(18, 209, 142, 1)
+                                                  : Color.fromRGBO(209, 18, 18, 1),
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: '%',
+                                            style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700,
+                                              color: snapshot.data!
+                                                  .results[index].c -
+                                                  snapshot.data!
+                                                      .results[index].o >=
+                                                  0
+                                                  ? Color.fromRGBO(18, 209, 142, 1)
+                                                  : Color.fromRGBO(209, 18, 18, 1),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
@@ -500,9 +435,10 @@ class _OverviewSectionState extends State<OverviewSection> {
   }
 }
 
-Future<FinancialData> getFinancial() async {
-  final response = await http.get(Uri.parse(
-      'https://api.polygon.io/vX/reference/financials?ticker=AAPL&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
+Future<FinancialData> getFinancial(String name) async {
+  final response = await http.get(
+    Uri.parse('https://api.polygon.io/vX/reference/financials?ticker=$name&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'),
+  );
 
   if (response.statusCode == 200) {
     Map<String, dynamic> data = jsonDecode(response.body.toString());
@@ -512,15 +448,9 @@ Future<FinancialData> getFinancial() async {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: OverviewSection(),
-  ));
-}
-
-Future<CompanyModel> getAboutCompany() async {
-  
-  final response = await http.get(Uri.parse('https://api.polygon.io/v3/reference/tickers/AAPL?apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
+Future<CompanyModel> getAboutCompany(String name) async {
+  final response = await http.get(Uri.parse(
+      'https://api.polygon.io/v3/reference/tickers/$name?apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
 
   if (response.statusCode == 200) {
     Map<String, dynamic> data = jsonDecode(response.body.toString());
@@ -530,14 +460,14 @@ Future<CompanyModel> getAboutCompany() async {
   }
 }
 
-  Future<CompanyNameStockApi> getname() async {
-    final response = await http.get(Uri.parse(
-        'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-11?adjusted=true&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
-    var data = jsonDecode(response.body.toString());
+Future<CompanyNameStockApi> getname() async {
+  final response = await http.get(Uri.parse(
+      'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-11?adjusted=true&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'));
+  var data = jsonDecode(response.body.toString());
 
-    if (response.statusCode == 200) {
-      return CompanyNameStockApi.fromJson(data);
-    } else {
-      return CompanyNameStockApi.fromJson(data);
-    }
+  if (response.statusCode == 200) {
+    return CompanyNameStockApi.fromJson(data);
+  } else {
+    return CompanyNameStockApi.fromJson(data);
   }
+}
