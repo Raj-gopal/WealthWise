@@ -6,6 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:wealthwise/screen/Add_Fund.dart';
 import 'package:wealthwise/screen/profile_screen.dart';
 import 'package:wealthwise/section/Overview_section.dart';
+<<<<<<< HEAD
+=======
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+>>>>>>> c94c5b552a422579c3d581736644568da692231c
 
 class StockDetail extends StatefulWidget {
   const StockDetail({Key? key, required this.name, required this.price, required this.ret}) : super(key: key);
@@ -60,8 +64,12 @@ class _StockDetailState extends State<StockDetail> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
+<<<<<<< HEAD
                     builder: (context) => const profile_screen(),
                   ),
+=======
+                      builder: (context) => const profile_screen()),
+>>>>>>> c94c5b552a422579c3d581736644568da692231c
                 );
               },
               child: SizedBox(
@@ -192,9 +200,38 @@ class _StockDetailState extends State<StockDetail> {
       color: Colors.white,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         GestureDetector(
+<<<<<<< HEAD
           onTap: () {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Center(
+=======
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Center(
+                  child: Text(
+                    'Not available',
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 24,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white),
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                elevation: 5,
+                backgroundColor: Color.fromRGBO(209, 18, 18, 1),
+              ));
+            },
+            child: Container(
+              height: 64,
+              width: 185 - 8,
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(209, 18, 18, .5),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Align(
+                alignment: Alignment.center,
+>>>>>>> c94c5b552a422579c3d581736644568da692231c
                 child: Text(
                   'Not available',
                   style: TextStyle(
@@ -233,6 +270,7 @@ class _StockDetailState extends State<StockDetail> {
           ),
         ),
         GestureDetector(
+<<<<<<< HEAD
           onTap: () {
             Navigator.push(
               context,
@@ -255,6 +293,28 @@ class _StockDetailState extends State<StockDetail> {
                   fontSize: 24,
                   fontWeight: FontWeight.w800,
                   color: Colors.white,
+=======
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Add_Fund()));
+            },
+            child: Container(
+              height: 64,
+              width: 185 - 8,
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(3, 127, 255, 1),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(
+                  'BUY',
+                  style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white),
+>>>>>>> c94c5b552a422579c3d581736644568da692231c
                 ),
               ),
             ),
