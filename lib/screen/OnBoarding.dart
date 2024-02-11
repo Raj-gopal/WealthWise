@@ -63,7 +63,7 @@ class onboarding_Screen extends StatelessWidget {
       image: CircleAvatar(
         radius: 150,
         backgroundColor: Colors.transparent,
-        backgroundImage: AssetImage('assets/image/2nd.png'),
+        backgroundImage: AssetImage('assets/image/3rd.png'),
       ),
       decoration: PageDecoration(
         pageColor: Colors.white,

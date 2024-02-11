@@ -1,14 +1,38 @@
+import 'dart:html';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
-import 'package:wealthwise/screen/Buy_Stock.dart';
 
-class Add_Fund extends StatelessWidget {
-  const Add_Fund({super.key});
+class Add_Fund extends StatefulWidget {
+  const Add_Fund({Key? key}) : super(key: key);
+
+  @override
+  State<Add_Fund> createState() => _Add_FundState();
+}
+
+class _Add_FundState extends State<Add_Fund> {
+  var money = TextEditingController();
+  final firestore = FirebaseFirestore.instance.collection('Funds');
+  double amount = 0.0;
+
+  Future<void> fetchAndSetAmount() async {
+    var fetchedAmount = await fetchData();
+    setState(() {
+      amount = fetchedAmount;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch initial amount when the widget is initialized
+    fetchAndSetAmount();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var money = TextEditingController();
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -29,7 +53,7 @@ class Add_Fund extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 4),
                 child: Text(
-                  '\$400 available',
+                  '\$$amount',
                   style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 16,
@@ -43,13 +67,12 @@ class Add_Fund extends StatelessWidget {
                 child: AutoSizeTextField(
                   controller: money,
                   fullwidth: false,
-                  // minWidth: 100,
-                  //   textAlignVertical: TextAlignVertical.center,
                   style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 32,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.black),
+                    fontFamily: 'Montserrat',
+                    fontSize: 32,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.black,
+                  ),
                   cursorColor: Color.fromRGBO(196, 196, 197, 1),
                   cursorHeight: 32,
                   keyboardType: TextInputType.number,
@@ -100,11 +123,42 @@ class Add_Fund extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => buy_stock()),
-          );
+        onTap: () async {
+          String id = 'Portfolio';
+          double enteredAmount = double.tryParse(money.text.toString()) ?? 0.0;
+
+          if (enteredAmount <= 0) {
+            print('Invalid entered amount');
+            return;
+          }
+
+          double totalAmount = enteredAmount + amount;
+
+          await firestore.doc(id).set({
+            'Fund': money.text.toString(),
+            'id': id,
+            'Amount': totalAmount,
+          });
+
+          // Fetch and update the amount after updating Firestore
+          await fetchAndSetAmount();
+
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Center(
+              child: Text(
+                'Amount Added',
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            behavior: SnackBarBehavior.floating,
+            elevation: 5,
+            backgroundColor: Color.fromRGBO(18, 209, 142, 1),
+          ));
         },
         child: Padding(
           padding:
@@ -119,10 +173,11 @@ class Add_Fund extends StatelessWidget {
               child: Text(
                 'ADD FUND',
                 style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white),
+                  fontFamily: 'Montserrat',
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -130,4 +185,17 @@ class Add_Fund extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<double> fetchData() async {
+  var collection = FirebaseFirestore.instance.collection('Funds');
+  var documentSnapshot = await collection.doc('Portfolio').get();
+
+  if (documentSnapshot.exists) {
+    Map<String, dynamic> data = documentSnapshot.data()!;
+    var amount = data['Amount'];
+    print('Fetched Amount: $amount');
+    return amount is double ? amount : 0.0;
+  }
+  return 0.0;
 }
