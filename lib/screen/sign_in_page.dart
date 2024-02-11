@@ -4,6 +4,7 @@ import 'package:wealthwise/%20%20user_auth/firebase_auth_implementation/firebase
 import 'package:wealthwise/screen/home_screen.dart';
 import 'package:wealthwise/screen/sign_up_page.dart';
 
+
 class sign_in extends StatefulWidget {
   const sign_in({super.key});
 
@@ -178,6 +179,15 @@ class _sign_inState extends State<sign_in> {
       print("some error happened");
     }
   }
+}
+
+class AuthService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
 
+
+  String? getCurrentUserEmail() {
+    User? user = _auth.currentUser;
+    return user?.email;
+  }
 }

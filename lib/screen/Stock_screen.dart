@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wealthwise/screen/Add_Fund.dart';
+import 'package:wealthwise/screen/Buy_Stock.dart';
 import 'package:wealthwise/screen/profile_screen.dart';
 import 'package:wealthwise/section/Overview_section.dart';
 
@@ -234,7 +234,7 @@ class _StockDetailState extends State<StockDetail> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Add_Fund()),
+              MaterialPageRoute(builder: (context) => buy_stock(name: widget.name, price: widget.price,)),
             );
           },
           child: Container(

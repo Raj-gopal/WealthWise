@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:wealthwise/model/About_company.dart';
 import 'package:wealthwise/model/company_name.dart';
 import 'package:wealthwise/screen/Stock_screen.dart';
 
@@ -24,7 +23,8 @@ class CompanyModel {
       name: json['results']['name'],
       description: json['results']['description'],
       ticker: json['results']['ticker'],
-      address: "${json['results']['address']['city']}, ${json['results']['address']['state']}",
+      address:
+          "${json['results']['address']['city']}, ${json['results']['address']['state']}",
     );
   }
 }
@@ -50,13 +50,19 @@ class ItemWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-            color: Color.fromRGBO(166, 166, 166, 1),
+        SizedBox(
+          width: 104,
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+           
+            style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: Color.fromRGBO(166, 166, 166, 1),
+            ),
           ),
         ),
         SizedBox(
@@ -136,7 +142,7 @@ class _OverviewSectionState extends State<OverviewSection> {
                     snapshot.data!.balanceSheet['assets']['value'] * 0.00000001;
                 String formattedValue =
                     otherCurrentAssetsValue.toStringAsFixed(2);
-               
+
                 // Assuming equitytonci
                 double equitytonci = snapshot.data!.balanceSheet[
                             'equity_attributable_to_noncontrolling_interest']
@@ -150,7 +156,7 @@ class _OverviewSectionState extends State<OverviewSection> {
                 //     0.00000001;
                 // String inventoryValue = inventory.toStringAsFixed(2);
 
-               // Assuming current_assets
+                // Assuming current_assets
                 double current_assets =
                     snapshot.data!.balanceSheet['current_assets']['value'] *
                         0.00000001;
@@ -161,19 +167,18 @@ class _OverviewSectionState extends State<OverviewSection> {
                 //     snapshot.data!.balanceSheet['long_term_debt']['value'] *
                 //         0.00000001;
                 // String long_term_debtValue = long_term_debt.toStringAsFixed(2);
-  // Assuming liabilities_and_equity
+                // Assuming liabilities_and_equity
                 double liabilities_and_equity = snapshot
                         .data!.balanceSheet['liabilities_and_equity']['value'] *
                     0.00000001;
                 String liabilities_and_equityValue =
                     liabilities_and_equity.toStringAsFixed(2);
 
-                    // Assuming fixed_assets
+                // Assuming fixed_assets
                 double fixed_assets =
                     snapshot.data!.balanceSheet['fixed_assets']['value'] *
                         0.00000001;
                 String fixed_assetsValue = fixed_assets.toStringAsFixed(2);
-
 
                 return Column(
                   children: [
@@ -181,33 +186,33 @@ class _OverviewSectionState extends State<OverviewSection> {
                       label: 'Assets',
                       value: formattedValue + ' B',
                     ),
-                       // Assuming Equity
+                    // Assuming Equity
                     ItemWidget(
                       label: 'Equity to NCI',
                       value: equitytonciValue + ' B',
                     ),
-                     // Assuming other_current_assets
+                    // Assuming other_current_assets
                     // ItemWidget(
                     //   label: 'Inventory',
                     //   value: inventoryValue + ' B',
                     // ),
 
-                      // Assuming Equity
+                    // Assuming Equity
                     ItemWidget(
                       label: 'Current Assets',
                       value: current_assetsValue + ' B',
                     ),
-                     // Assuming other_current_assets
+                    // Assuming other_current_assets
                     // ItemWidget(
                     //   label: 'Long Term Debt',
                     //   value: long_term_debtValue + ' B',
                     // ),
-                      // Assuming Equity
+                    // Assuming Equity
                     ItemWidget(
                       label: 'Liabilities and Equity',
                       value: liabilities_and_equityValue + ' B',
                     ),
-                     // Assuming other_current_assets
+                    // Assuming other_current_assets
                     ItemWidget(
                       label: 'Fixed Assets',
                       value: fixed_assetsValue + ' B',
@@ -248,7 +253,8 @@ class _OverviewSectionState extends State<OverviewSection> {
                   return Column(
                     children: [
                       ItemWidget(label: 'Name', value: snapshot.data!.name),
-                      ItemWidget(label: 'Address', value: snapshot.data!.address),
+                      ItemWidget(
+                          label: 'Address', value: snapshot.data!.address),
                       ItemWidget(label: 'Ticker', value: snapshot.data!.ticker),
                     ],
                   );
@@ -293,12 +299,19 @@ class _OverviewSectionState extends State<OverviewSection> {
                               context,
                               CupertinoPageRoute(
                                 builder: (context) => StockDetail(
-                                  name: snapshot.data!.results[index].t.toString(),
-                                  price: snapshot.data!.results[index].vw!.toStringAsFixed(2),
-                                  ret: ((snapshot.data!.results[index].c) - (snapshot.data!.results[index].o) >= 0
-                                      ? '+'
-                                      : '') +
-                                      ((snapshot.data!.results[index].c) - (snapshot.data!.results[index].o)).toStringAsFixed(2),
+                                  name: snapshot.data!.results[index].t
+                                      .toString(),
+                                  price: snapshot.data!.results[index].vw!
+                                      .toStringAsFixed(2),
+                                  ret: ((snapshot.data!.results[index].c) -
+                                                  (snapshot.data!.results[index]
+                                                      .o) >=
+                                              0
+                                          ? '+'
+                                          : '') +
+                                      ((snapshot.data!.results[index].c) -
+                                              (snapshot.data!.results[index].o))
+                                          .toStringAsFixed(2),
                                 ),
                               ),
                             );
@@ -336,18 +349,20 @@ class _OverviewSectionState extends State<OverviewSection> {
                                               fontFamily: 'Montserrat',
                                               fontSize: 20,
                                               fontWeight: FontWeight.w700,
-                                              color: Color.fromRGBO(4, 23, 39, 1),
+                                              color:
+                                                  Color.fromRGBO(4, 23, 39, 1),
                                             ),
                                           ),
                                           TextSpan(
-                                            text: snapshot.data!
-                                                .results[index].vw
+                                            text: snapshot
+                                                .data!.results[index].vw
                                                 .toString(),
                                             style: TextStyle(
                                               fontFamily: 'Montserrat',
                                               fontSize: 20,
                                               fontWeight: FontWeight.w700,
-                                              color: Color.fromRGBO(4, 23, 39, 1),
+                                              color:
+                                                  Color.fromRGBO(4, 23, 39, 1),
                                             ),
                                           ),
                                         ],
@@ -359,43 +374,55 @@ class _OverviewSectionState extends State<OverviewSection> {
                                       text: TextSpan(
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: snapshot.data!
-                                                .results[index].c -
-                                                snapshot.data!
-                                                    .results[index].o >=
-                                                0
+                                            text: snapshot.data!.results[index]
+                                                            .c -
+                                                        snapshot.data!
+                                                            .results[index].o >=
+                                                    0
                                                 ? '+'
                                                 : '',
                                             style: TextStyle(
                                               fontFamily: 'Montserrat',
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,
-                                              color: snapshot.data!
-                                                  .results[index].c -
-                                                  snapshot.data!
-                                                      .results[index].o >=
-                                                  0
-                                                  ? Color.fromRGBO(18, 209, 142, 1)
-                                                  : Color.fromRGBO(209, 18, 18, 1),
+                                              color: snapshot
+                                                              .data!
+                                                              .results[index]
+                                                              .c -
+                                                          snapshot
+                                                              .data!
+                                                              .results[index]
+                                                              .o >=
+                                                      0
+                                                  ? Color.fromRGBO(
+                                                      18, 209, 142, 1)
+                                                  : Color.fromRGBO(
+                                                      209, 18, 18, 1),
                                             ),
                                           ),
                                           TextSpan(
-                                            text: (snapshot.data!
-                                                .results[index].c -
-                                                snapshot.data!
-                                                    .results[index].o)
+                                            text: (snapshot.data!.results[index]
+                                                        .c -
+                                                    snapshot
+                                                        .data!.results[index].o)
                                                 .toStringAsFixed(2),
                                             style: TextStyle(
                                               fontFamily: 'Montserrat',
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,
-                                              color: snapshot.data!
-                                                  .results[index].c -
-                                                  snapshot.data!
-                                                      .results[index].o >=
-                                                  0
-                                                  ? Color.fromRGBO(18, 209, 142, 1)
-                                                  : Color.fromRGBO(209, 18, 18, 1),
+                                              color: snapshot
+                                                              .data!
+                                                              .results[index]
+                                                              .c -
+                                                          snapshot
+                                                              .data!
+                                                              .results[index]
+                                                              .o >=
+                                                      0
+                                                  ? Color.fromRGBO(
+                                                      18, 209, 142, 1)
+                                                  : Color.fromRGBO(
+                                                      209, 18, 18, 1),
                                             ),
                                           ),
                                           TextSpan(
@@ -404,13 +431,19 @@ class _OverviewSectionState extends State<OverviewSection> {
                                               fontFamily: 'Montserrat',
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,
-                                              color: snapshot.data!
-                                                  .results[index].c -
-                                                  snapshot.data!
-                                                      .results[index].o >=
-                                                  0
-                                                  ? Color.fromRGBO(18, 209, 142, 1)
-                                                  : Color.fromRGBO(209, 18, 18, 1),
+                                              color: snapshot
+                                                              .data!
+                                                              .results[index]
+                                                              .c -
+                                                          snapshot
+                                                              .data!
+                                                              .results[index]
+                                                              .o >=
+                                                      0
+                                                  ? Color.fromRGBO(
+                                                      18, 209, 142, 1)
+                                                  : Color.fromRGBO(
+                                                      209, 18, 18, 1),
                                             ),
                                           ),
                                         ],
@@ -437,7 +470,8 @@ class _OverviewSectionState extends State<OverviewSection> {
 
 Future<FinancialData> getFinancial(String name) async {
   final response = await http.get(
-    Uri.parse('https://api.polygon.io/vX/reference/financials?ticker=$name&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'),
+    Uri.parse(
+        'https://api.polygon.io/vX/reference/financials?ticker=$name&apiKey=h8gjI2GQTJ1KibD7oZXacUGOhTS5qKKq'),
   );
 
   if (response.statusCode == 200) {

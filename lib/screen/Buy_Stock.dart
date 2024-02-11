@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 class buy_stock extends StatefulWidget {
-  const buy_stock({Key? key}) : super(key: key);
-
+  const buy_stock({Key? key,required this.name, required this.price}) : super(key: key);
+final String name;
+  final String price;
   @override
   State<buy_stock> createState() => _buy_stockState();
 }
@@ -15,11 +16,13 @@ class _buy_stockState extends State<buy_stock> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             TextScroll(
-              'Indian Railway Finance Corp',
+              widget.name,
               intervalSpaces: 10,
               velocity: Velocity(pixelsPerSecond: Offset(50, 0)),
               fadedBorder: true,
@@ -36,7 +39,7 @@ class _buy_stockState extends State<buy_stock> {
               height: 8,
             ),
             Text(
-              '₹2,090.75',
+             '\$' + widget.price,
               style: TextStyle(
                 fontFamily: 'Montserrat',
                 fontSize: 16,
@@ -144,7 +147,7 @@ class _buy_stockState extends State<buy_stock> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8),
                             child: Text(
-                              '₹2,090.75',
+                              '\$' + widget.price,
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 16,
@@ -233,8 +236,8 @@ class _buy_stockState extends State<buy_stock> {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: buy_stock(),
-  ));
-}
+// void main() {
+//   runApp(MaterialApp(
+//     home: buy_stock(),
+//   ));
+// }
