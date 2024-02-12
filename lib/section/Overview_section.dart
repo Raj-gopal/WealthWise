@@ -50,19 +50,15 @@ class ItemWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SizedBox(
-          width: 104,
-          child: Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-           
-            style: TextStyle(
-              fontFamily: 'Montserrat',
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Color.fromRGBO(166, 166, 166, 1),
-            ),
+        Text(
+          label,
+          maxLines: 1,
+           overflow: TextOverflow.ellipsis, 
+          style: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Color.fromRGBO(166, 166, 166, 1),
           ),
         ),
         SizedBox(
@@ -344,7 +340,7 @@ class _OverviewSectionState extends State<OverviewSection> {
                                       text: TextSpan(
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: "＄",
+                                            text: "\$",
                                             style: TextStyle(
                                               fontFamily: 'Montserrat',
                                               fontSize: 20,

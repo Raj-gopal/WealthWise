@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wealthwise/screen/Buy_Stock.dart';
 import 'package:wealthwise/screen/profile_screen.dart';
 import 'package:wealthwise/section/Overview_section.dart';
+import 'package:wealthwise/widgets/graph.dart';
 
 class StockDetail extends StatefulWidget {
   const StockDetail(
@@ -93,7 +94,7 @@ class _StockDetailState extends State<StockDetail> {
                         ),
                       ),
                       SizedBox(height: 24),
-                      //      Container(height: 292, child: CandlestickGraph()),
+                         Container(height: 292, child: CandlestickGraph()),
                       SizedBox(height: 24),
                       tab(),
                       SizedBox(height: 32),
@@ -490,7 +491,7 @@ class BasicData extends StatelessWidget {
             ),
           ),
           Text(
-            '＄' + '$price',
+            '\$' + '$price',
             style: TextStyle(
               fontFamily: 'Montserrat',
               fontSize: 24,

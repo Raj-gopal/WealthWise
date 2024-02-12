@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wealthwise/screen/profile_screen.dart';
 import 'package:wealthwise/section/Explore_section.dart';
+import 'package:wealthwise/section/Holding_screen.dart';
 import 'package:wealthwise/widgets/user_data.dart';
 
 class home_page extends StatefulWidget {
@@ -13,7 +14,7 @@ class home_page extends StatefulWidget {
 class _home_pageState extends State<home_page> {
   final List<Widget> tabViews = [
     Explore_section(),
-    Text('data'),
+    HoldingScreen(),
     Text('data'),
   ];
 
