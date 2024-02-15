@@ -189,7 +189,7 @@ class _sign_upState extends State<sign_up> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => sign_in()));
+                                  builder: (context) => SignIn()));
                         },
                         child: RichText(
                           text: TextSpan(
