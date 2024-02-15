@@ -99,7 +99,7 @@ class _Explore_sectionState extends State<Explore_section> {
                                                 text: TextSpan(
                                                   children: <TextSpan>[
                                                     TextSpan(
-                                                      text: "＄",
+                                                      text: "\$",
                                                       style: TextStyle(
                                                           fontFamily:
                                                               'Montserrat',

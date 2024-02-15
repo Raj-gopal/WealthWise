@@ -1,5 +1,6 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class userdata extends StatefulWidget {
@@ -10,6 +11,24 @@ class userdata extends StatefulWidget {
 }
 
 class _userdataState extends State<userdata> {
+
+
+double amount = 0.0;
+
+  Future<void> fetchAndSetAmount() async {
+    var fetchedAmount = await fetchData();
+    setState(() {
+      amount = fetchedAmount;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch initial amount when the widget is initialized
+    fetchAndSetAmount();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -47,7 +66,7 @@ class _userdataState extends State<userdata> {
                     
                                 // Data
                                 Text(
-                                  '₹5,423.95',
+                                  '\$$amount',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'Montserrat',
@@ -79,7 +98,7 @@ class _userdataState extends State<userdata> {
                     
                                 // Data
                                 Text(
-                                  '₹4,490.56',
+                                  '\$$amount',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'Montserrat',
@@ -94,7 +113,7 @@ class _userdataState extends State<userdata> {
                     ),
                 
                     SizedBox(
-                      width: 104,
+                      width: 128,
                     ),
                 
                     //Right side Data
@@ -120,7 +139,7 @@ class _userdataState extends State<userdata> {
                 
                                 // Data
                                 Text(
-                                  '₹763.39',
+                                  '\$763.39',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'Montserrat',
@@ -151,7 +170,7 @@ class _userdataState extends State<userdata> {
                 
                                 // Data
                                 Text(
-                                  '₹42.25',
+                                  '\$42.25',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'Montserrat',
@@ -169,4 +188,18 @@ class _userdataState extends State<userdata> {
               ),
             );
   }
+}
+
+Future<double> fetchData() async {
+  var collection = FirebaseFirestore.instance.collection('Funds');
+  var documentSnapshot = await collection.doc('Portfolio').get();
+
+  if (documentSnapshot.exists) {
+    Map<String, dynamic> data = documentSnapshot.data()!;
+    var amount = data['Amount'];
+    print('Fetched Amount: $amount');
+    return amount is double ? amount : 0.0;
+    
+  }
+  return 0.0;
 }
